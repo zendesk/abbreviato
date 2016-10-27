@@ -14,5 +14,3 @@ Bundler.require
 Dir[File.dirname(__FILE__) + '/truncato/**/*.rb'].each do |file|
   load file
 end
-
-

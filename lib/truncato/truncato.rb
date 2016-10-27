@@ -4,11 +4,11 @@ module Truncato
       count_tags: true,
       tail: "...",
       filtered_attributes: []
-  }
+  }.freeze
 
-  DEFAULT_BYTESIZE_OPTIONS = DEFAULT_CHARACTER_OPTIONS.merge({ count_tail: true })
+  DEFAULT_BYTESIZE_OPTIONS = DEFAULT_CHARACTER_OPTIONS.merge(count_tail: true).freeze
 
-  ARTIFICIAL_ROOT_NAME = '__truncato_root__'
+  ARTIFICIAL_ROOT_NAME = '__truncato_root__'.freeze
 
   # Truncates the source XML string and returns the truncated XML. It will keep a valid XML structure
   # and insert a _tail_ text indicating the position where content were removed (...).
@@ -21,22 +21,24 @@ module Truncato
   # @option user_options [Boolean] :count_bytes `true` for working on a per-byte basis, instead of per-character
   # @option user_options [Array<String>] :filtered_attributes Array of names of attributes that should be excluded in the resulting truncated string. This allows you to make the truncated string shorter by excluding the content of attributes you can discard in some given context, e.g HTML `style` attribute.
   # @return [String] the truncated string
-  def self.truncate source, user_options={}
+  def self.truncate(source, user_options = {})
     options = user_options[:count_bytes] ? DEFAULT_BYTESIZE_OPTIONS.merge(user_options) : DEFAULT_CHARACTER_OPTIONS.merge(user_options)
-    self.do_truncate_html(source, options) ? self.do_truncate_html(with_artificial_root(source), options) : nil
+    do_truncate_html(source, options) ? do_truncate_html(with_artificial_root(source), options) : nil
   end
 
-  private
+  class << self
+    private
 
-  def self.do_truncate_html source, options
-    truncated_sax_document = TruncatedSaxDocument.new(options)
-    parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document)
-    parser.parse(source) { |context| context.replace_entities = false }
-    truncated_string = truncated_sax_document.truncated_string
-    truncated_string.empty? ? nil : truncated_string
-  end
+    def do_truncate_html(source, options)
+      truncated_sax_document = TruncatedSaxDocument.new(options)
+      parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document)
+      parser.parse(source) { |context| context.replace_entities = false }
+      truncated_string = truncated_sax_document.truncated_string
+      truncated_string.empty? ? nil : truncated_string
+    end
 
-  def self.with_artificial_root(source)
-    "<#{ARTIFICIAL_ROOT_NAME}>#{source}</#{ARTIFICIAL_ROOT_NAME}>"
+    def with_artificial_root(source)
+      "<#{ARTIFICIAL_ROOT_NAME}>#{source}</#{ARTIFICIAL_ROOT_NAME}>"
+    end
   end
 end

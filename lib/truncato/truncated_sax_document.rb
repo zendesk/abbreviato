@@ -2,13 +2,21 @@ require 'nokogiri'
 require 'htmlentities'
 
 class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
-  IGNORABLE_TAGS = %w(html head body)
+  IGNORABLE_TAGS = %w[html head body].freeze
 
   # These don't have to be closed (which also impacts ongoing length calculations)
-  SINGLE_TAGS = %w{br img}
+  SINGLE_TAGS = %w[br img].freeze
 
-  attr_reader :truncated_string, :max_length, :max_length_reached, :tail,
-              :count_tags, :filtered_attributes, :filtered_tags, :ignored_levels, :something_has_been_truncated, :count_bytes
+  attr_reader :truncated_string,
+    :max_length,
+    :max_length_reached,
+    :tail,
+    :count_tags,
+    :filtered_attributes,
+    :filtered_tags,
+    :ignored_levels,
+    :something_has_been_truncated,
+    :count_bytes
 
   def initialize(options)
     @html_coder = HTMLEntities.new
@@ -16,7 +24,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     init_parsing_state
   end
 
-  def start_element name, attributes
+  def start_element(name, attributes)
     enter_ignored_level if filtered_tags.include?(name)
     return if @max_length_reached || ignorable_tag?(name) || ignore_mode?
 
@@ -32,43 +40,41 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     append_to_truncated_string string_to_add, length
   end
 
-  def characters decoded_string
+  def characters(decoded_string)
     if @max_length_reached || ignore_mode?
       @something_has_been_truncated |= @max_length_reached
       return
     end
-    if count_bytes
-      # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
-      string_to_append = if char_or_byte_count(@html_coder.encode(decoded_string)) > remaining_length
-        @something_has_been_truncated = true
-        truncate_string(decoded_string, remaining_length)
-      else
-        decoded_string
-      end
-      encoded_string_to_append = @html_coder.encode(string_to_append)
-      length = char_or_byte_count(encoded_string_to_append)
-    else
-      string_to_append = if char_or_byte_count(decoded_string) > remaining_length
-        @something_has_been_truncated = true
-        truncate_string(decoded_string, remaining_length)
-      else
-        decoded_string
-      end
-      encoded_string_to_append = @html_coder.encode(string_to_append)
-      length = char_or_byte_count(string_to_append)
-    end
 
+    string_to_check = count_bytes ? @html_coder.encode(decoded_string) : decoded_string
+    exceeded_length = char_or_byte_count(string_to_check) > remaining_length
+
+    string_to_append = if exceeded_length
+      @something_has_been_truncated = true
+      truncate_string(decoded_string, remaining_length)
+    else
+      decoded_string
+    end
+    encoded_string_to_append = @html_coder.encode(string_to_append)
+
+    length = if count_bytes
+      # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
+      char_or_byte_count(encoded_string_to_append)
+    else
+      # We're counting characters, so don't worry how many bytes it takes to reposent this in the string
+      char_or_byte_count(string_to_append)
+    end
     append_to_truncated_string encoded_string_to_append, length
   end
 
-  def comment string
+  def comment(string)
     if @comments
       return if @max_length_reached
       process_comment string
     end
   end
 
-  def end_element name
+  def end_element(name)
     if filtered_tags.include?(name) && ignore_mode?
       exit_ignored_level
       return
@@ -95,7 +101,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def estimated_length_with_tail
-    @estimated_length + ((@count_tail && @something_has_been_truncated)? tail_length : 0)
+    @estimated_length + (@count_tail && @something_has_been_truncated ? tail_length : 0)
   end
 
   def capture_options(options)
@@ -122,7 +128,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     append_to_truncated_string string_to_append
   end
 
-  def comment_tag comment
+  def comment_tag(comment)
     "<!--#{comment}-->"
   end
 
@@ -138,16 +144,16 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     tail.match(/^&\w+;$/).nil? ? char_or_byte_count(tail) : 1
   end
 
-  def single_tag_element? name
+  def single_tag_element?(name)
     SINGLE_TAGS.include? name
   end
 
-  def append_to_truncated_string string, overriden_length=nil
+  def append_to_truncated_string(string, overriden_length = nil)
     @truncated_string << string
     increase_estimated_length(overriden_length || char_or_byte_count(string))
   end
 
-  def opening_tag name, attributes
+  def opening_tag(name, attributes)
     attributes_string = attributes_to_string attributes
     if single_tag_element? name
       "<#{name}#{attributes_string}/>"
@@ -156,13 +162,13 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     end
   end
 
-  def attributes_to_string attributes
+  def attributes_to_string(attributes)
     return "" if attributes.empty?
     attributes_string = concatenate_attributes_declaration attributes
     attributes_string.rstrip
   end
 
-  def concatenate_attributes_declaration attributes
+  def concatenate_attributes_declaration(attributes)
     attributes.inject(' ') do |string, attribute|
       key, value = attribute
       next string if @filtered_attributes.include? key
@@ -170,11 +176,11 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     end
   end
 
-  def closing_tag name
+  def closing_tag(name)
     "</#{name}>"
   end
 
-  def increase_estimated_length amount
+  def increase_estimated_length(amount)
     @estimated_length += amount
     check_max_length_reached
   end
@@ -183,17 +189,17 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @max_length_reached = true if estimated_length_with_tail >= max_length
   end
 
-  def truncate_string string, remaining_length
+  def truncate_string(string, remaining_length)
     @something_has_been_truncated = true
     if @tail_before_final_tag
-      @count_bytes ? "#{string.byteslice(0, remaining_length).scrub('')}" : "#{string.slice(0, remaining_length)}"
+      @count_bytes ? string.byteslice(0, remaining_length).scrub('') : string.slice(0, remaining_length)
     else
       @tail_appended = true
       @count_bytes ? "#{string.byteslice(0, remaining_length).scrub('')}#{tail}" : "#{string.slice(0, remaining_length)}#{tail}"
     end
   end
 
-  def truncate_comment string, remaining_length
+  def truncate_comment(string, remaining_length)
     remaining_length_for_start_of_comment = remaining_length - tail_length - char_or_byte_count("-->")
 
     if @tail_before_final_tag
@@ -233,12 +239,12 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     artificial_root_name?(name) || IGNORABLE_TAGS.include?(name.downcase)
   end
 
-  def artificial_root_name? name
+  def artificial_root_name?(name)
     name == Truncato::ARTIFICIAL_ROOT_NAME
   end
 
   def append_tail_between_closing_tags
-    append_to_truncated_string closing_tag(@closing_tags.delete_at (@closing_tags.size - 1)) if @closing_tags.any?
+    append_to_truncated_string(closing_tag(@closing_tags.delete_at(@closing_tags.size - 1))) if @closing_tags.any?
   end
 
   def enter_ignored_level

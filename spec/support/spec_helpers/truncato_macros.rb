@@ -3,7 +3,7 @@ module TruncatoMacros
     it "should truncate #{example_description}" do
       expected_options = Truncato::DEFAULT_CHARACTER_OPTIONS.merge(options[:with])
       result = Truncato.truncate(options[:source], expected_options)
-      result.should == options[:expected]
+      result.should eq options[:expected]
       if expected_options[:count_tags] && expected_options[:count_tail]
         result.length.should <= expected_options[:max_length]
       end
@@ -14,7 +14,7 @@ module TruncatoMacros
     it "should truncate #{example_description}" do
       expected_options = Truncato::DEFAULT_BYTESIZE_OPTIONS.merge(options[:with])
       result = Truncato.truncate(options[:source], expected_options)
-      result.should == options[:expected]
+      result.should eq options[:expected]
       result.bytesize.should <= expected_options[:max_length]
     end
   end
