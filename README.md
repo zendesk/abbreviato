@@ -20,6 +20,7 @@ Truncato.truncate "<p>some text</p>", max_length: 4, count_tags: false #=> "<p>s
 The configuration options are:
 
 * `max_length`: The size, in characters, to truncate (`30` by default)
+* `count_bytes`: Truncate based on bytes, not characters. (`false` by default)
 * `filtered_attributes`: Array of attribute names that will be removed in the truncated string. This allows you to make the truncated string shorter by excluding the content of attributes you can discard in some given context, e.g HTML `style` attribute.
 * `filtered_tags`: Array of tags that will be removed in the truncated string. If a tag is excluded, all the nested tags under it will be excluded too.
 * `count_tags`: Boolean value indicating whether tags size should be considered when truncating (`true` by default)

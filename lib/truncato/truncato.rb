@@ -18,10 +18,11 @@ module Truncato
   # @option user_options [Integer] :max_length Maximum length
   # @option user_options [String] :tail text to append when the truncation happens
   # @option user_options [Boolean] :count_tags `true` for counting tags for truncation, `false` for not counting them
+  # @option user_options [Boolean] :count_bytes `true` for working on a per-byte basis, instead of per-character
   # @option user_options [Array<String>] :filtered_attributes Array of names of attributes that should be excluded in the resulting truncated string. This allows you to make the truncated string shorter by excluding the content of attributes you can discard in some given context, e.g HTML `style` attribute.
   # @return [String] the truncated string
   def self.truncate source, user_options={}
-    options = user_options[:max_bytes] ? DEFAULT_BYTESIZE_OPTIONS.merge(user_options) : DEFAULT_CHARACTER_OPTIONS.merge(user_options)
+    options = user_options[:count_bytes] ? DEFAULT_BYTESIZE_OPTIONS.merge(user_options) : DEFAULT_CHARACTER_OPTIONS.merge(user_options)
     self.do_truncate_html(source, options) ? self.do_truncate_html(with_artificial_root(source), options) : nil
   end
 

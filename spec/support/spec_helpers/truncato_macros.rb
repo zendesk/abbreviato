@@ -15,7 +15,7 @@ module TruncatoMacros
       expected_options = Truncato::DEFAULT_BYTESIZE_OPTIONS.merge(options[:with])
       result = Truncato.truncate(options[:source], expected_options)
       result.should == options[:expected]
-      result.bytesize.should <= expected_options[:max_bytes]
+      result.bytesize.should <= expected_options[:max_length]
     end
   end
 end

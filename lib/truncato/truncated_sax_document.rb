@@ -7,8 +7,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   # These don't have to be closed (which also impacts ongoing length calculations)
   SINGLE_TAGS = %w{br img}
 
-  attr_reader :truncated_string, :max_length, :max_bytes, :max_length_reached, :tail,
-              :count_tags, :filtered_attributes, :filtered_tags, :ignored_levels, :something_has_been_truncated
+  attr_reader :truncated_string, :max_length, :max_length_reached, :tail,
+              :count_tags, :filtered_attributes, :filtered_tags, :ignored_levels, :something_has_been_truncated, :count_bytes
 
   def initialize(options)
     @html_coder = HTMLEntities.new
@@ -37,7 +37,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
       @something_has_been_truncated |= @max_length_reached
       return
     end
-    if max_bytes
+    if count_bytes
       # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
       string_to_append = if char_or_byte_count(@html_coder.encode(decoded_string)) > remaining_length
         @something_has_been_truncated = true
@@ -91,7 +91,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   private
 
   def remaining_length
-    maximum - estimated_length_with_tail
+    max_length - estimated_length_with_tail
   end
 
   def estimated_length_with_tail
@@ -100,7 +100,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   def capture_options(options)
     @max_length = options[:max_length]
-    @max_bytes = options[:max_bytes]
+    @count_bytes = options[:count_bytes]
     @count_tags = options [:count_tags]
     @count_tail = options.fetch(:count_tail, false)
     @tail = options[:tail]
@@ -109,8 +109,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @tail_before_final_tag = options.fetch(:tail_before_final_tag, false)
     @comments = options.fetch(:comments, false)
 
-    raise(ArgumentError, "Cannot specify `max_bytes` if `count_tags` is not true") if @max_bytes && !@count_tags
-    raise(ArgumentError, "Cannot specify `max_bytes` if `count_tail` is not true") if @max_bytes && !@count_tail #&& !@tail.empty?
+    raise(ArgumentError, "Cannot specify `count_bytes` if `count_tags` is not true") if @count_bytes && !@count_tags
+    raise(ArgumentError, "Cannot specify `count_bytes` if `count_tail` is not true") if @count_bytes && !@count_tail
   end
 
   def process_comment(string)
@@ -180,16 +180,16 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def check_max_length_reached
-    @max_length_reached = true if estimated_length_with_tail >= maximum
+    @max_length_reached = true if estimated_length_with_tail >= max_length
   end
 
   def truncate_string string, remaining_length
     @something_has_been_truncated = true
     if @tail_before_final_tag
-      @max_bytes ? "#{string.byteslice(0, remaining_length).scrub('')}" : "#{string.slice(0, remaining_length)}"
+      @count_bytes ? "#{string.byteslice(0, remaining_length).scrub('')}" : "#{string.slice(0, remaining_length)}"
     else
       @tail_appended = true
-      @max_bytes ? "#{string.byteslice(0, remaining_length).scrub('')}#{tail}" : "#{string.slice(0, remaining_length)}#{tail}"
+      @count_bytes ? "#{string.byteslice(0, remaining_length).scrub('')}#{tail}" : "#{string.slice(0, remaining_length)}#{tail}"
     end
   end
 
@@ -254,10 +254,6 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def char_or_byte_count(str)
-    @max_bytes ? str.bytesize : str.length
-  end
-
-  def maximum
-    max_bytes || max_length
+    @count_bytes ? str.bytesize : str.length
   end
 end
