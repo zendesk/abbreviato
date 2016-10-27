@@ -237,6 +237,24 @@ describe "Truncato" do
     end
 
     describe "multi-byte tail" do
+      # These examples purposely specify a number of bytes which is not divisible by four, to ensure
+      # characters don't get brokwn up part-way thorugh their multi-byte representation
+      it_should_truncate_bytes "no html text with longer length",
+        with: {count_bytes: true, max_length: 51, tail: '𠴕'},
+        source: "𠲖𠲖𠲖𠲖𠲖𠲖𠲖𠲖",
+        expected: "𠲖𠲖𠲖𠲖𠲖𠲖𠲖𠲖"
+      it_should_truncate_bytes "no html text with equal length",
+        with: {count_bytes: true, max_length: 9, tail: "𠴕"},
+        source: "𠝹𠝹",
+        expected: "𠝹𠝹"
+      it_should_truncate_bytes "no html text with shorter length",
+        with: {count_bytes: true, max_length: 9, tail: "𠴕"},
+        source: "𠝹𠝹𠝹𠝹",
+        expected: "𠝹𠴕"
+      it_should_truncate_bytes "no html text with shorter length and longer tail",
+        with: {count_bytes: true, max_length: 17, tail: "𠴕𠴕𠴕"},
+        source: "𠝹𠝹𠝹𠝹𠝹𠝹",
+        expected: "𠝹𠴕𠴕𠴕"
     end
 
     describe "html tags structure" do

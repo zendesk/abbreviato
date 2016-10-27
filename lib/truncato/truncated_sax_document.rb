@@ -101,6 +101,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def estimated_length_with_tail
+    # byebug
     @estimated_length + (@count_tail && @something_has_been_truncated ? tail_length : 0)
   end
 
@@ -192,10 +193,10 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   def truncate_string(string, remaining_length)
     @something_has_been_truncated = true
     if @tail_before_final_tag
-      @count_bytes ? string.byteslice(0, remaining_length).scrub('') : string.slice(0, remaining_length)
+      @count_bytes ? (string.byteslice(0, remaining_length) || '').scrub('') : string.slice(0, remaining_length)
     else
       @tail_appended = true
-      @count_bytes ? "#{string.byteslice(0, remaining_length).scrub('')}#{tail}" : "#{string.slice(0, remaining_length)}#{tail}"
+      @count_bytes ? "#{(string.byteslice(0, remaining_length) || '').scrub('')}#{tail}" : "#{string.slice(0, remaining_length)}#{tail}"
     end
   end
 
