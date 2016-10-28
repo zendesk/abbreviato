@@ -10,14 +10,12 @@ gemspec
 
 # Required for cleaning up a string which has been bytesliced
 # https://github.com/hsbt/string-scrub
-gem 'string-scrub'
+gem 'string-scrub', git: "https://github.com/arjun-urs/string-scrub.git"
 
 group :development do
   gem "bundler"
-  gem "byebug"
-  gem "awesome_print"
-  gem "rubocop", require: false
-  gem "rspec-benchmark"
+  gem 'rubocop', require: false
+  gem 'brakeman', require: false
 end
 
 group :benchmark do
