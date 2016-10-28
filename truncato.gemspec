@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "nokogiri", "~> 1.6.8"
   s.add_dependency "htmlentities", "~> 4.3.4"
-  s.add_dependency "string-scrub", "~> 0.1.1"
 
   s.add_development_dependency "rspec", '~> 3.5.0'
   s.add_development_dependency "rake", '~> 11.3.0'

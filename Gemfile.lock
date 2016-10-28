@@ -1,16 +1,9 @@
-GIT
-  remote: https://github.com/arjun-urs/string-scrub.git
-  revision: 041845e08753214a413709984cd22a76059045ed
-  specs:
-    string-scrub (0.1.2)
-
 PATH
   remote: .
   specs:
     truncato (0.7.8)
       htmlentities (~> 4.3.4)
       nokogiri (~> 1.6.8)
-      string-scrub (~> 0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -89,7 +82,6 @@ DEPENDENCIES
   rspec (~> 3.5.0)
   rspec-benchmark
   rubocop
-  string-scrub!
   truncato!
 
 BUNDLED WITH

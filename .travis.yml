@@ -1,16 +1,16 @@
 language: ruby
 bundler_args: ""
 rvm:
-  - 2.0.0
+  - 2.2.3
   - 2.2.4
 
 script:
  - bundle exec rake test
 matrix:
   include:
-    - rvm: 2.2.4
+    - rvm: 2.2.3
       script: 'bundle exec brakeman --exit-on-warn --force-scan lib --ignore-config .brakeman.ignore'
       script: 'bundle exec rubocop'
       script: 'bundle exec flay'
   exclude:
-    - rvm: 2.0.0
+    - rvm: 2.2.4

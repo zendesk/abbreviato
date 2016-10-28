@@ -67,7 +67,7 @@ The results comparing truncato with other libs:
 ## Running the tests
 
 ```ruby
-rake spec
+rspec
 ```
 
 
