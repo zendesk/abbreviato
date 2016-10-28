@@ -15,3 +15,11 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 RSpec.configure do |config|
   config.extend TruncatoMacros
 end
+
+RSpec::Matchers.define :be_valid_html do
+  match do |actual|
+    # Fires exception
+    Nokogiri::HTML("<html><body>#{actual}</body></html>", &:strict)
+    true
+  end
+end
