@@ -393,5 +393,29 @@ describe "Truncato" do
         source: "<div><table><tr><td>Hi there</td></tr></table>some text<img/></div>",
         expected: "<div>some text</div>"
     end
+
+    let(:html_1Kb_doc) { File.read('spec/fixtures/html_1Mb.html') }
+    let(:html_1Mb_doc) { File.read('spec/fixtures/html_1Mb.html') }
+    let(:html_10Mb_doc) { File.read('spec/fixtures/html_1Mb.html') }
+    let(:bench) { Benchmark::Perf::ExecutionTime.new(samples: 10) }
+
+    it "speed is proportional to length of truncated string, not input" do
+      mean_one_kb, = bench.run do
+        Truncato.truncate(html_1Kb_doc, count_bytes: true, max_length: 1000)
+      end
+      mean_one_mb, = bench.run do
+        Truncato.truncate(html_1Mb_doc, count_bytes: true, max_length: 1000)
+      end
+      mean_ten_mb, = bench.run do
+        Truncato.truncate(html_10Mb_doc, count_bytes: true, max_length: 1000)
+      end
+
+      avg = (mean_one_kb + mean_one_mb + mean_ten_mb) / 3
+      variance = Math.sqrt(((mean_one_kb - avg)**2 + (mean_one_mb - avg)**2 + (mean_ten_mb - avg)**2) / 3)
+
+      # This was tested by increasing the max_length on the benchmarks above. If the processing time is
+      # proportional to the document size, the variance is closer to 0.2
+      expect(variance).to be < 0.002
+    end
   end
 end

@@ -4,6 +4,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rubygems'
 require 'bundler'
 require 'nokogiri'
+require 'rspec-benchmark'
 
 Bundler.setup
 Bundler.require
@@ -14,6 +15,7 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   config.extend TruncatoMacros
+  config.include RSpec::Benchmark::Matchers
 end
 
 RSpec::Matchers.define :be_valid_html do

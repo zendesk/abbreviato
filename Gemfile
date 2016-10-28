@@ -13,10 +13,11 @@ gemspec
 gem 'string-scrub'
 
 group :development do
-  gem "bundler", "~> 1.3"
+  gem "bundler"
   gem "byebug"
   gem "awesome_print"
   gem "rubocop", require: false
+  gem "rspec-benchmark"
 end
 
 group :benchmark do
