@@ -5,6 +5,7 @@ require 'rubygems'
 require 'bundler'
 require 'nokogiri'
 require 'rspec-benchmark'
+require 'benchmark/memory'
 
 Bundler.setup
 Bundler.require

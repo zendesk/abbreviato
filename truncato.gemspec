@@ -37,5 +37,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-benchmark"
   s.add_development_dependency "flay"
   s.add_development_dependency "bundler-audit"
+  s.add_development_dependency "benchmark-memory"
 end
 

@@ -417,5 +417,15 @@ describe "Truncato" do
       # proportional to the document size, the variance is closer to 0.2
       expect(variance).to be < 0.002
     end
+
+    it "memory usage is proportional to length of truncated string, not input" do
+      report = Benchmark.memory(quiet: true) do |x|
+        x.report("1Kb")  { Truncato.truncate(html_1Kb_doc,  count_bytes: true, max_length: 1000) }
+        x.report("1Mb")  { Truncato.truncate(html_1Mb_doc,  count_bytes: true, max_length: 1000) }
+        x.report("10Mb") { Truncato.truncate(html_10Mb_doc, count_bytes: true, max_length: 1000) }
+      end
+      expect(report.entries[0].measurement.metrics[0].allocated).to eq report.entries[1].measurement.metrics[0].allocated
+      expect(report.entries[1].measurement.metrics[0].allocated).to eq report.entries[2].measurement.metrics[0].allocated
+    end
   end
 end
