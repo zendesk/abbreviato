@@ -31,7 +31,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     string_to_add = opening_tag(name, attributes)
 
     # Abort if there is not enough space to add the combined opening tag and (potentially) the closing tag
-    length = overriden_tag_length(name, string_to_add)
+    length = overridden_tag_length(name, string_to_add)
     return if length > remaining_length
 
     # Save the tag so we can push it on at the end
@@ -149,9 +149,9 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     SINGLE_TAGS.include? name
   end
 
-  def append_to_truncated_string(string, overriden_length = nil)
+  def append_to_truncated_string(string, overridden_length = nil)
     @truncated_string << string
-    increase_estimated_length(overriden_length || char_or_byte_count(string))
+    increase_estimated_length(overridden_length || char_or_byte_count(string))
   end
 
   def opening_tag(name, attributes)
@@ -225,7 +225,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @closing_tags.reverse.each { |name| append_to_truncated_string closing_tag name }
   end
 
-  def overriden_tag_length(tag_name, rendered_tag_with_attributes)
+  def overridden_tag_length(tag_name, rendered_tag_with_attributes)
     return 0 unless @count_tags
 
     # Start with the opening tag
