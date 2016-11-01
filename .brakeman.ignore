@@ -1,0 +1,21 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 88,
+      "fingerprint": "73e352cd7b43b0a4045a100d43b7707bebf3caeaec223a191375cde74f7e2b52",
+      "message": "Rails 3.x is vulnerable to denial of service via XML parsing (CVE-2015-3227). Upgrade to Rails version 3.2.22",
+      "file": "config/environment.rb",
+      "line": null,
+      "link": "https://groups.google.com/d/msg/rubyonrails-security/bahr2JLnxvk/x4EocXnHPp8J",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    }
+  ],
+  "updated": "2016-09-16 16:12:16 -0700",
+  "brakeman_version": "3.4.0"
+}

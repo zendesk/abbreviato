@@ -3,10 +3,8 @@ bundler_args: ""
 rvm:
   - 2.2.3
 script:
- - bundle exec rake test
-matrix:
-  include:
-    - rvm: 2.2.3
-      script: 'bundle exec brakeman --exit-on-warn --force-scan lib --ignore-config .brakeman.ignore'
-      script: 'bundle exec rubocop'
-      script: 'bundle exec flay'
+  - bundle exec rspec
+  - bundle exec rubocop
+  - bundle exec bundle-audit
+  - bundle exec flay
+  - bundle exec brakeman --exit-on-warn --force-scan lib --ignore-config .brakeman.ignore
