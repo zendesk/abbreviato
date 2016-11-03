@@ -71,6 +71,16 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     append_to_truncated_string(comment) if comment.bytesize <= remaining_length
   end
 
+  # This method is called when the parser encounters cdata. In practice, this also
+  # gets called for this style of comment inside an element:
+  #
+  #   <style><!--
+  #     /* Font Definitions */
+  #     @font-face
+  #       {font-family:Wingdings;
+  #       panose-1:5 0 0 0 0 0 0 0 0 0;}
+  #   --></style>
+  #
   def cdata_block(string)
     append_to_truncated_string(string) if string.bytesize <= remaining_length
   end
