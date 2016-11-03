@@ -54,20 +54,25 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
       return
     end
 
-    string_to_append = if decoded_string.bytesize > remaining_length
-      truncate_string(decoded_string)
-    else
-      decoded_string
-    end
-
     # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
-    encoded_string_to_append = @html_coder.encode(string_to_append)
-    append_to_truncated_string encoded_string_to_append, encoded_string_to_append.bytesize
+    encoded_string = @html_coder.encode(decoded_string, :named)
+    string_to_append = if encoded_string.bytesize > remaining_length
+      # This is the line which prevents HTML entities getting truncated - treat them as a single char
+      @html_coder.encode(truncate_string(decoded_string), :named)
+    else
+      encoded_string
+    end
+    append_to_truncated_string string_to_append, string_to_append.bytesize
   end
 
   # This method is called when the parser encounters an comment
   def comment(string)
-    # Strip comments
+    comment = comment_tag(string)
+    append_to_truncated_string(comment) if comment.bytesize <= remaining_length
+  end
+
+  def cdata_block(string)
+    append_to_truncated_string(string) if string.bytesize <= remaining_length
   end
 
   # This method is called when the parser encounters a closing tag
@@ -100,6 +105,10 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     else
       "<#{name}#{attributes_string}>"
     end
+  end
+
+  def comment_tag(comment)
+    "<!--#{comment}-->"
   end
 
   def closing_tag(name)

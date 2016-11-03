@@ -94,10 +94,15 @@ describe "Truncato" do
       source: "<table><tr><td>Hi <br> there</td></tr></table>",
       expected: "<table><tr><td>Hi <br/> there</td></tr></table>"
 
-    it_should_truncate "nbsp",
-      with: {max_length: 100},
-      source: "<span>Foo&nbsp;Bar</span>",
-      expected: "<span>Foo#{NBSP}Bar</span>"
+    it_should_truncate "preserve html entities",
+      with: {max_length: 99},
+      source: "<o:p>&nbsp;</o:p>",
+      expected: "<o:p>&nbsp;</o:p>"
+
+    it_should_truncate "not truncate html entities (all or nothing)",
+      with: {max_length: 26}, # Too small to bring all of &nbsp; in
+      source: "<o:p>Hello there&nbsp;</o:p>",
+      expected: "<o:p>Hello there...</o:p>"
   end
 
   describe "single html tag elements" do
@@ -113,10 +118,15 @@ describe "Truncato" do
   end
 
   describe "comment html element" do
-    it_should_truncate "html text and ignore <!-- a comment --> element by default",
-      with: {max_length: 18},
-      source: "<!-- a comment --><p>some text 1</p>",
-      expected: "<p>some text 1</p>"
+    it_should_truncate "retains comments",
+      with: {max_length: 35},
+      source: "<div><!--This is a comment--></div>",
+      expected: "<div><!--This is a comment--></div>"
+
+    it_should_truncate "doesn't truncate comments themselves (all or nothing)",
+      with: {max_length: 34},
+      source: "<div><!--This is a comment--></div>",
+      expected: "<div></div>"
   end
 
   describe "html attributes" do
@@ -134,6 +144,15 @@ describe "Truncato" do
       with: {max_length: 35},
       source: "<div><p attr1='1'>some text</p></div>",
       expected: "<div><p attr1='1'>some...</p></div>"
+  end
+
+  describe "cdata blocks" do
+    # This comes from a real-world example which requires cdata support to bring in the CSS
+    let(:cdata_example) { File.read('spec/fixtures/cdata_example.html') }
+    it "cdata blocks are preserved" do
+      truncated = Truncato.truncate(cdata_example,  max_length: 65535)
+      expect(truncated.length).to eq 3583
+    end
   end
 
   describe "edge-cases: long tags" do
@@ -193,4 +212,11 @@ describe "Truncato" do
     expect(report.entries[0].measurement.metrics[0].allocated).to be_within(1000).of report.entries[1].measurement.metrics[0].allocated
     expect(report.entries[1].measurement.metrics[0].allocated).to be_within(1000).of report.entries[2].measurement.metrics[0].allocated
   end
+
+  # Preserve this code as an example of truncating a real-world (PII-less) example
+  # let(:real_world_doc) { File.read('spec/fixtures/real_world_example.html') }
+  # it "works with a real-life example" do
+  #   truncated = Truncato.truncate(real_world_doc,  max_length: 65535)
+  #   File.open('spec/fixtures/real_world_example_truncated.html', 'w') { |file| file.write(truncated) }
+  # end
 end
