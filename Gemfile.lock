@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    abbreviato (0.7.8)
+    abbreviato (0.8.0)
       htmlentities (~> 4.3.4)
       nokogiri (~> 1.6.8)
 
@@ -13,6 +13,11 @@ GEM
     benchmark-memory (0.1.1)
       memory_profiler (~> 0.9)
     benchmark-perf (0.1.0)
+    brakecheck (0.1.8)
+      faraday
+      faraday_middleware
+      minitest
+      rspec (~> 3.0)
     brakeman (3.4.1)
     bundler-audit (0.5.0)
       bundler (~> 1.2)
@@ -20,6 +25,10 @@ GEM
     byebug (9.0.6)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    faraday (0.10.0)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.10.1)
+      faraday (>= 0.7.4, < 1.0)
     flay (2.8.1)
       erubis (~> 2.7.0)
       path_expander (~> 1.0)
@@ -30,6 +39,8 @@ GEM
     htmlentities (4.3.4)
     memory_profiler (0.9.6)
     mini_portile2 (2.1.0)
+    minitest (5.9.1)
+    multipart-post (2.0.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     parser (2.3.1.4)
@@ -76,6 +87,7 @@ DEPENDENCIES
   abbreviato!
   awesome_print
   benchmark-memory
+  brakecheck
   brakeman
   bundler
   bundler-audit

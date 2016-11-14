@@ -12,6 +12,7 @@ group :development do
   gem "bundler"
   gem 'rubocop', require: false
   gem 'brakeman', require: false
+  gem 'brakecheck'
 end
 
 group :benchmark do

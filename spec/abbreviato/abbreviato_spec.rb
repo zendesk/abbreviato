@@ -1,6 +1,7 @@
 require "spec_helper"
 require "byebug"
 require "awesome_print"
+require "brakecheck"
 
 describe "Abbreviato" do
   NBSP = Nokogiri::HTML("&nbsp;").text
@@ -219,4 +220,10 @@ describe "Abbreviato" do
   #   truncated = Abbreviato.truncate(real_world_doc,  max_length: 65535)
   #   File.open('spec/fixtures/real_world_example_truncated.html', 'w') { |file| file.write(truncated) }
   # end
+
+  describe "Brakeman" do
+    it "is up to date" do
+      expect("brakeman").to be_the_latest_version
+    end
+  end
 end
