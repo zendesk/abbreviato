@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    truncato (0.7.8)
+    abbreviato (0.7.8)
       htmlentities (~> 4.3.4)
       nokogiri (~> 1.6.8)
 
@@ -73,6 +73,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  abbreviato!
   awesome_print
   benchmark-memory
   brakeman
@@ -86,7 +87,6 @@ DEPENDENCIES
   rspec (~> 3.5.0)
   rspec-benchmark
   rubocop
-  truncato!
 
 BUNDLED WITH
    1.13.6

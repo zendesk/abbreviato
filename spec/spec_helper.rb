@@ -15,7 +15,7 @@ Bundler.require
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
-  config.extend TruncatoMacros
+  config.extend AbbreviatoMacros
   config.include RSpec::Benchmark::Matchers
 end
 

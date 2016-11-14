@@ -2,7 +2,7 @@ require "spec_helper"
 require "byebug"
 require "awesome_print"
 
-describe "Truncato" do
+describe "Abbreviato" do
   NBSP = Nokogiri::HTML("&nbsp;").text
 
   describe "normal strings" do
@@ -150,7 +150,7 @@ describe "Truncato" do
     # This comes from a real-world example which requires cdata support to bring in the CSS
     let(:cdata_example) { File.read('spec/fixtures/cdata_example.html') }
     it "cdata blocks are preserved" do
-      truncated = Truncato.truncate(cdata_example,  max_length: 65535)
+      truncated = Abbreviato.truncate(cdata_example,  max_length: 65535)
       expect(truncated.length).to eq 3583
     end
   end
@@ -185,13 +185,13 @@ describe "Truncato" do
 
   it "speed is proportional to length of truncated string, not input" do
     mean_one_kb, = bench.run do
-      Truncato.truncate(html_1Kb_doc, max_length: 1000)
+      Abbreviato.truncate(html_1Kb_doc, max_length: 1000)
     end
     mean_one_mb, = bench.run do
-      Truncato.truncate(html_1Mb_doc, max_length: 1000)
+      Abbreviato.truncate(html_1Mb_doc, max_length: 1000)
     end
     mean_ten_mb, = bench.run do
-      Truncato.truncate(html_10Mb_doc, max_length: 1000)
+      Abbreviato.truncate(html_10Mb_doc, max_length: 1000)
     end
 
     avg = (mean_one_kb + mean_one_mb + mean_ten_mb) / 3
@@ -205,9 +205,9 @@ describe "Truncato" do
   it "memory usage is proportional to length of truncated string, not input" do
     # Measured memory usage is around 500K for all of these
     report = Benchmark.memory(quiet: true) do |x|
-      x.report("1Kb")  { Truncato.truncate(html_1Kb_doc,  max_length: 1000) }
-      x.report("1Mb")  { Truncato.truncate(html_1Mb_doc,  max_length: 1000) }
-      x.report("10Mb") { Truncato.truncate(html_10Mb_doc, max_length: 1000) }
+      x.report("1Kb")  { Abbreviato.truncate(html_1Kb_doc,  max_length: 1000) }
+      x.report("1Mb")  { Abbreviato.truncate(html_1Mb_doc,  max_length: 1000) }
+      x.report("10Mb") { Abbreviato.truncate(html_10Mb_doc, max_length: 1000) }
     end
     expect(report.entries[0].measurement.metrics[0].allocated).to be_within(1000).of report.entries[1].measurement.metrics[0].allocated
     expect(report.entries[1].measurement.metrics[0].allocated).to be_within(1000).of report.entries[2].measurement.metrics[0].allocated
@@ -216,7 +216,7 @@ describe "Truncato" do
   # Preserve this code as an example of truncating a real-world (PII-less) example
   # let(:real_world_doc) { File.read('spec/fixtures/real_world_example.html') }
   # it "works with a real-life example" do
-  #   truncated = Truncato.truncate(real_world_doc,  max_length: 65535)
+  #   truncated = Abbreviato.truncate(real_world_doc,  max_length: 65535)
   #   File.open('spec/fixtures/real_world_example_truncated.html', 'w') { |file| file.write(truncated) }
   # end
 end

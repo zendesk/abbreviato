@@ -1,4 +1,4 @@
-module Truncato
+module Abbreviato
   class BenchmarkRunner
     SYNTHETIC_XML_LENGTH = 4000000
     TRUNCATION_LENGTH = 400000
@@ -11,11 +11,11 @@ module Truncato
     end
 
     def run
-      run_suite [Truncato]
+      run_suite [Abbreviato]
     end
 
     def run_comparison
-      run_suite [Truncato, VendorHtmlTruncatorAdapter, PeppercornAdapter]
+      run_suite [Abbreviato, VendorHtmlAbbreviatorAdapter, PeppercornAdapter]
     end
 
     private

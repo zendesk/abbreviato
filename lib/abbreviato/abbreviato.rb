@@ -1,4 +1,4 @@
-module Truncato
+module Abbreviato
   DEFAULT_OPTIONS = {
       max_length: 30,
       tail: "..."
