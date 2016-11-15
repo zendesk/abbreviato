@@ -59,6 +59,13 @@ describe "Abbreviato" do
       expected: "<p>𠝹𠴕𠴕𠴕</p>"
   end
 
+  describe "html entity (ellipsis) tail" do
+    it_should_truncate "html text with ellipsis html entity tail",
+      with: {max_length: 27, tail: '&hellip;'},
+      source: "<p>This is some text which will be truncated</p>",
+      expected: "<p>This is some&hellip;</p>"
+  end
+
   describe "html tags structure" do
     it_should_truncate "html text with tag",
       with: {max_length: 14},

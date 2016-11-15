@@ -58,7 +58,9 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     encoded_string = @html_coder.encode(decoded_string, :named)
     string_to_append = if encoded_string.bytesize > remaining_length
       # This is the line which prevents HTML entities getting truncated - treat them as a single char
-      @html_coder.encode(truncate_string(decoded_string), :named)
+      str = @html_coder.encode(truncate_string(decoded_string), :named)
+      str << tail if @something_has_been_truncated && remaining_length >= 0
+      str
     else
       encoded_string
     end
@@ -130,11 +132,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def estimated_length_with_tail
-    @estimated_length + (@something_has_been_truncated ? tail_length : 0)
-  end
-
-  def tail_length
-    tail.match(/^&\w+;$/).nil? ? tail.bytesize : 1
+    @estimated_length + (@something_has_been_truncated ? tail.bytesize : 0)
   end
 
   def single_tag_element?(name)
@@ -170,7 +168,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   def truncate_string(string)
     @something_has_been_truncated = true
-    "#{(string.byteslice(0, remaining_length) || '').scrub('')}#{tail}" unless remaining_length < 0
+    (string.byteslice(0, remaining_length) || '').scrub('') unless remaining_length < 0
   end
 
   def overridden_tag_length(tag_name, rendered_tag_with_attributes)
