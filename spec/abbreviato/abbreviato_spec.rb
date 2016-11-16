@@ -119,10 +119,35 @@ describe "Abbreviato" do
       source: "<div><h1><br/>some text 1</h1><p>some text 2</p></div>",
       expected: "<div><h1><br/>so...</h1></div>"
 
+    it_should_truncate "html text with <br /> element with a closing tag",
+      with: {max_length: 30},
+      source: "<div><h1><br></br>some text 1</h1><p>some text 2</p></div>",
+      expected: "<div><h1><br/>so...</h1></div>"
+
     it_should_truncate "html text with <img/> element without adding a closing tag",
       with: {max_length: 45},
       source: "<div><p><img src='some_path'/>some text 1</p><p>some text 2</p></div>",
       expected: "<div><p><img src='some_path'/>so...</p></div>"
+
+    it_should_truncate "html text with <img/> element with a closing tag",
+      with: {max_length: 45},
+      source: "<div><p><img src='some_path'></img>some text 1</p><p>some text 2</p></div>",
+      expected: "<div><p><img src='some_path'/>so...</p></div>"
+  end
+
+  describe "invalid html" do
+    it_should_truncate "html text with unclosed elements 1",
+      with: {max_length: 30},
+      source: "<div><h1><br/>some text 1</h1><p>some text 2",
+      expected: "<div><h1><br/>so...</h1></div>"
+    it_should_truncate "html text with unclosed elements 1",
+      with: {max_length: 30},
+      source: "<div><h1><br>some text 1<p>some text 2",
+      expected: "<div><h1><br/>so...</h1></div>"
+    it_should_truncate "html text with unclosed br element",
+      with: {max_length: 30},
+      source: "<div><h1><br>some text 1</h1><p>some text 2",
+      expected: "<div><h1><br/>so...</h1></div>"
   end
 
   describe "comment html element" do
