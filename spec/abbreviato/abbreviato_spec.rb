@@ -140,13 +140,17 @@ describe "Abbreviato" do
       with: {max_length: 30},
       source: "<div><h1><br/>some text 1</h1><p>some text 2",
       expected: "<div><h1><br/>so...</h1></div>"
-    it_should_truncate "html text with unclosed elements 1",
+    it_should_truncate "html text with unclosed elements 2",
       with: {max_length: 30},
       source: "<div><h1><br>some text 1<p>some text 2",
       expected: "<div><h1><br/>so...</h1></div>"
     it_should_truncate "html text with unclosed br element",
       with: {max_length: 30},
       source: "<div><h1><br>some text 1</h1><p>some text 2",
+      expected: "<div><h1><br/>so...</h1></div>"
+    it_should_truncate "html text with mis-matched elements",
+      with: {max_length: 30},
+      source: "<div><h1><br/>some text 1</h2><p>some text 2</span></table>",
       expected: "<div><h1><br/>so...</h1></div>"
   end
 
