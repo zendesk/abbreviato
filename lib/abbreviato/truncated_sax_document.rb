@@ -93,7 +93,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
       return
     end
 
-    return if max_length_reached || ignorable_tag?(name) || ignore_mode?
+    return if max_length_reached || ignorable_tag?(name)
 
     unless single_tag_element? name
       @closing_tags.pop
