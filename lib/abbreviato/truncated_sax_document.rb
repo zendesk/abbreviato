@@ -42,7 +42,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     # Save the tag so we can push it on at the end
     @closing_tags.push name unless single_tag_element? name
 
-    append_to_truncated_string string_to_add, length_of_tags
+    append_to_truncated_string(string_to_add, length_of_tags)
   end
 
   # This method is called when the parser encounters characters between tags
@@ -55,14 +55,15 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
     encoded_string = @html_coder.encode(decoded_string, :named)
     string_to_append = if encoded_string.bytesize > remaining_length
+      @something_has_been_truncated = true
       # This is the line which prevents HTML entities getting truncated - treat them as a single char
       str = @html_coder.encode(truncate_string(decoded_string), :named)
-      str << tail if @something_has_been_truncated && remaining_length >= 0
+      str << tail if @something_has_been_truncated && remaining_length >= tail.bytesize
       str
     else
       encoded_string
     end
-    append_to_truncated_string string_to_append, string_to_append.bytesize
+    append_to_truncated_string(string_to_append)
   end
 
   # This method is called when the parser encounters an comment
@@ -98,7 +99,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
       @closing_tags.pop
       # Don't count the length when closing a tag - it was accommodated when
       # the tag was opened
-      append_to_truncated_string closing_tag(name), 0
+      append_to_truncated_string(closing_tag(name), 0)
     end
   end
 
@@ -126,11 +127,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def remaining_length
-    max_length - estimated_length_with_tail
-  end
-
-  def estimated_length_with_tail
-    @estimated_length + (@something_has_been_truncated ? tail.bytesize : 0)
+    max_length - @estimated_length
   end
 
   def single_tag_element?(name)
@@ -139,7 +136,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   def append_to_truncated_string(string, overridden_length = nil)
     @truncated_string << string
-    increase_estimated_length(overridden_length || string.bytesize)
+    @estimated_length += (overridden_length || string.bytesize)
   end
 
   def attributes_to_string(attributes)
@@ -149,17 +146,13 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     end.rstrip
   end
 
-  def increase_estimated_length(amount)
-    @estimated_length += amount
-  end
-
   def max_length_reached
-    estimated_length_with_tail >= max_length
+    @estimated_length >= max_length
   end
 
   def truncate_string(string)
-    @something_has_been_truncated = true
-    (string.byteslice(0, remaining_length) || '').scrub('') unless remaining_length < 0
+    truncate_length = remaining_length - tail.bytesize
+    (string.byteslice(0, truncate_length) || '').scrub('')
   end
 
   def overridden_tag_length(tag_name, rendered_tag_with_attributes)
