@@ -11,8 +11,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   attr_reader :truncated_string,
     :max_length,
     :tail,
-    :ignored_levels,
-    :something_has_been_truncated
+    :ignored_levels
 
   def initialize(options)
     @html_coder = HTMLEntities.new
@@ -47,18 +46,14 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   # This method is called when the parser encounters characters between tags
   def characters(decoded_string)
-    if max_length_reached || ignore_mode?
-      @something_has_been_truncated = max_length_reached
-      return
-    end
+    return if max_length_reached || ignore_mode?
 
     # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
     encoded_string = @html_coder.encode(decoded_string, :named)
     string_to_append = if encoded_string.bytesize > remaining_length
-      @something_has_been_truncated = true
       # This is the line which prevents HTML entities getting truncated - treat them as a single char
       str = @html_coder.encode(truncate_string(decoded_string), :named)
-      str << tail if @something_has_been_truncated && remaining_length >= tail.bytesize
+      str << tail if remaining_length >= tail.bytesize
       str
     else
       encoded_string
