@@ -145,16 +145,10 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def attributes_to_string(attributes)
-    return "" if attributes.empty?
-    attributes_string = concatenate_attributes_declaration attributes
-    attributes_string.rstrip
-  end
-
-  def concatenate_attributes_declaration(attributes)
     attributes.inject(' ') do |string, attribute|
       key, value = attribute
       string << "#{key}='#{@html_coder.encode value}' "
-    end
+    end.rstrip
   end
 
   def increase_estimated_length(amount)
