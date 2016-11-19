@@ -104,7 +104,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def end_document
-    @closing_tags.reverse.each { |name| append_to_truncated_string(closing_tag name) }
+    @closing_tags.reverse.each { |name| append_to_truncated_string(closing_tag(name)) }
   end
 
   private
