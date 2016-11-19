@@ -29,17 +29,23 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   def start_element(name, attributes)
     return if max_length_reached || ignorable_tag?(name)
 
+    # If already in ignore mode, go in deeper
+    if ignore_mode?
+      enter_ignored_level unless single_tag_element?(name)
+      return
+    end
+
     string_to_add = opening_tag(name, attributes)
 
     # Abort if there is not enough space to add the combined opening tag and (potentially) the closing tag
     length_of_tags = overridden_tag_length(name, string_to_add)
     if length_of_tags > remaining_length
-      enter_ignored_level
+      enter_ignored_level unless single_tag_element?(name)
       return
     end
 
     # Save the tag so we can push it on at the end
-    @closing_tags.push name unless single_tag_element? name
+    @closing_tags.push name unless single_tag_element?(name)
 
     append_to_truncated_string(string_to_add, length_of_tags)
   end
@@ -84,13 +90,12 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   # This method is called when the parser encounters a closing tag
   def end_element(name)
     if ignore_mode?
-      exit_ignored_level
+      exit_ignored_level unless single_tag_element?(name)
       return
     end
-
     return if max_length_reached || ignorable_tag?(name)
 
-    unless single_tag_element? name
+    unless single_tag_element?(name)
       @closing_tags.pop
       # Don't count the length when closing a tag - it was accommodated when
       # the tag was opened
@@ -99,13 +104,13 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def end_document
-    @closing_tags.reverse.each { |name| append_to_truncated_string closing_tag name }
+    @closing_tags.reverse.each { |name| append_to_truncated_string(closing_tag name) }
   end
 
   private
 
   def opening_tag(name, attributes)
-    attributes_string = attributes_to_string attributes
+    attributes_string = attributes_to_string(attributes)
     if single_tag_element? name
       "<#{name}#{attributes_string}/>"
     else

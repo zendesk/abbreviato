@@ -209,10 +209,25 @@ describe "Abbreviato" do
       with: {max_length: 63},
       source: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>",
       expected: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>"
-    it_should_truncate "does not allow closing tags to get added without opening tags",
-      with: {max_length: 63},
-      source: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>",
-      expected: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>"
+  end
+
+  describe "edge-cases:" do
+    it_should_truncate "discard a single element within a longer element and use the following html (assuming it will fit)",
+      with: {max_length: 9},
+      source: "<span><input/></span><p>.</p>",
+      expected: "<p>.</p>"
+    it_should_truncate "discard a single element within a longer element",
+      with: {max_length: 10},
+      source: "<span><p></p></span><h1>.</h1>",
+      expected: "<h1>.</h1>"
+    it_should_truncate "some semi-random elements",
+      with: {max_length: 10},
+      source: "<span><p><br/><br/><br/><p><br/></span><h1></h2>.</h3><h4><br/>",
+      expected: "<h1>.</h1>"
+    it_should_truncate "junk, including various html chars",
+      with: {max_length: 10},
+      source: "<<< /  > < 0)(*&^*&^%${#}><? < /",
+      expected: ""
   end
 
   let(:html_1Kb_doc) { File.read('spec/fixtures/html_1Mb.html') }
