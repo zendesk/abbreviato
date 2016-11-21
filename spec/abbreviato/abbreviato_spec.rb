@@ -247,8 +247,8 @@ describe "Abbreviato" do
   describe "wbr element support" do
     it_should_truncate "preserves <wbr> elements",
       with: { max_length: 100 },
-      source: "<p>The quick<wbr>brown fox<wbr>jumped over the lazy dog<p>",
-      expected: "<p>The quick<wbr/>brown fox<wbr/>jumped over the lazy dog<p>"
+      source: "<p>The quick<wbr>brown fox<wbr>jumped over the lazy dog</p>",
+      expected: "<p>The quick<wbr/>brown fox<wbr/>jumped over the lazy dog</p>"
   end
 
   let(:html_1Kb_doc) { File.read('spec/fixtures/html_1Mb.html') }
