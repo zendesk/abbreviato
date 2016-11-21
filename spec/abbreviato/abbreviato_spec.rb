@@ -230,18 +230,25 @@ describe "Abbreviato" do
       expected: ""
   end
 
-  describe "void tags don't get closing element added" do
+  describe "void tags" do
     TruncatedSaxDocument::VOID_TAGS.each do |tag|
-      it_should_truncate "void tag: #{tag}",
+      it_should_truncate "void tag: #{tag} doesn't get closing element added",
         with: { max_length: 100 },
         source: "<#{tag}/>",
         expected: "<#{tag}/>"
 
-      it_should_truncate "void tag: #{tag} with closing element",
+      it_should_truncate "void tag: #{tag} has closing element stripped",
         with: { max_length: 100 },
         source: "<#{tag}></#{tag}>",
         expected: "<#{tag}/>"
     end
+  end
+
+  describe "wbr element support" do
+    it_should_truncate "preserves <wbr> elements",
+      with: { max_length: 100 },
+      source: "<p>The quick<wbr>brown fox<wbr>jumped over the lazy dog<p>",
+      expected: "<p>The quick<wbr/>brown fox<wbr/>jumped over the lazy dog<p>"
   end
 
   let(:html_1Kb_doc) { File.read('spec/fixtures/html_1Mb.html') }

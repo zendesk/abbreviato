@@ -6,7 +6,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   # These don't have to be closed (which also impacts ongoing length calculations)
   # http://www.456bereastreet.com/archive/201005/void_empty_elements_and_self-closing_start_tags_in_html/
-  VOID_TAGS = %w[area base br col command hr img input keygen link meta param source].freeze
+  VOID_TAGS = %w[area base br col command hr img input keygen link meta param source wbr].freeze
 
   attr_reader :truncated_string,
     :max_length,
