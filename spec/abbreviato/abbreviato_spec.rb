@@ -230,6 +230,20 @@ describe "Abbreviato" do
       expected: ""
   end
 
+  describe "void tags don't get closing element added" do
+    TruncatedSaxDocument::VOID_TAGS.each do |tag|
+      it_should_truncate "void tag: #{tag}",
+        with: { max_length: 100 },
+        source: "<#{tag}/>",
+        expected: "<#{tag}/>"
+
+      it_should_truncate "void tag: #{tag} with closing element",
+        with: { max_length: 100 },
+        source: "<#{tag}></#{tag}>",
+        expected: "<#{tag}/>"
+    end
+  end
+
   let(:html_1Kb_doc) { File.read('spec/fixtures/html_1Mb.html') }
   let(:html_1Mb_doc) { File.read('spec/fixtures/html_1Mb.html') }
   let(:html_10Mb_doc) { File.read('spec/fixtures/html_1Mb.html') }
