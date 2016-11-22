@@ -59,7 +59,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     string_to_append = if encoded_string.bytesize > remaining_length
       # This is the line which prevents HTML entities getting truncated - treat them as a single char
       str = @html_coder.encode(truncate_string(decoded_string), :named)
-      str << tail if remaining_length >= tail.bytesize
+      str << tail if remaining_length - str.bytesize >= tail.bytesize
       str
     else
       encoded_string
