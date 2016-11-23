@@ -14,8 +14,3 @@ group :development do
   gem 'brakeman', require: false
   gem 'brakecheck'
 end
-
-group :benchmark do
-  gem 'html_truncator'
-  gem 'peppercorn'
-end
