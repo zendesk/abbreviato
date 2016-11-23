@@ -11,11 +11,11 @@ module Abbreviato
   # @param [Hash] user_options truncation options
   # @option user_options [Integer] :max_length Maximum length
   # @option user_options [String] :tail text to append when the truncation happens
-  # @return [String] the truncated string
+  # @return [[String] the truncated string, [boolean] whether the string was truncated]
   def self.truncate(source, user_options = {})
     truncated_sax_document = TruncatedSaxDocument.new(DEFAULT_OPTIONS.merge(user_options))
     parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document)
     parser.parse(source) { |context| context.replace_entities = false }
-    truncated_sax_document.truncated_string
+    [truncated_sax_document.truncated_string, truncated_sax_document.truncated]
   end
 end

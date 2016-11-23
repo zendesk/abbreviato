@@ -13,14 +13,13 @@ gem 'abbreviato'
 ## Usage
 
 ```ruby
-Abbreviato.truncate "<p>some text</p>", max_length: 4 #=> "<p>s...</p>"
-Abbreviato.truncate "<p>some text</p>", max_length: 4, count_tags: false #=> "<p>some...</p>"
+truncated_string, was_truncated = Abbreviato.truncate("<p>some text</p>", max_length: 4) #=> ["<p>s...</p>", true]
 ```
 
 The configuration options are:
 
-* `max_length`: The size, in characters, to truncate (`30` by default)
-* `tail`: The string to append when the truncation occurs ('...' by default)
+* `max_length`: The size, in bytes, to truncate (`30` by default)
+* `tail`: The string to append when the truncation occurs ('...' by default). Supports HTML entities such as '&hellip;'
 
 ## Performance
 

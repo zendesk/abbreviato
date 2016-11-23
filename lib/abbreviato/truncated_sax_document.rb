@@ -11,7 +11,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   attr_reader :truncated_string,
     :max_length,
     :tail,
-    :ignored_levels
+    :ignored_levels,
+    :truncated
 
   def initialize(options)
     @html_coder = HTMLEntities.new
@@ -23,6 +24,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @closing_tags = []
     @estimated_length = 0
     @ignored_levels = 0
+    @truncated = false
   end
 
   # This method is called when the parser encounters an open tag
@@ -67,10 +69,14 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     append_to_truncated_string(string_to_append)
   end
 
-  # This method is called when the parser encounters an comment
+  # This method is called when the parser encounters a comment
   def comment(string)
     comment = comment_tag(string)
-    append_to_truncated_string(comment) if comment.bytesize <= remaining_length
+    if comment.bytesize <= remaining_length
+      append_to_truncated_string(comment)
+    else
+      @truncated = true
+    end
   end
 
   # This method is called when the parser encounters cdata. In practice, this also
@@ -84,7 +90,11 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   #   --></style>
   #
   def cdata_block(string)
-    append_to_truncated_string(string) if string.bytesize <= remaining_length
+    if string.bytesize <= remaining_length
+      append_to_truncated_string(string)
+    else
+      @truncated = true
+    end
   end
 
   # This method is called when the parser encounters a closing tag
@@ -151,6 +161,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def truncate_string(string)
+    @truncated = true
     truncate_length = remaining_length - tail.bytesize
     (string.byteslice(0, truncate_length) || '').scrub('')
   end
@@ -169,6 +180,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def enter_ignored_level
+    @truncated = true
     @ignored_levels += 1
   end
 
