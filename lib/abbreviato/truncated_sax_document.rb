@@ -18,7 +18,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @html_coder = HTMLEntities.new
 
     @max_length = options[:max_length]
-    @tail = options[:tail]
+    @tail = options[:tail] || ''
 
     @truncated_string = ""
     @closing_tags = []

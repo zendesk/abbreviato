@@ -7,6 +7,11 @@ describe "Abbreviato" do
   NBSP = Nokogiri::HTML("&nbsp;").text
 
   describe "normal strings" do
+    it_should_truncate "nil html text with longer length",
+      false,
+      with: { max_length: 99 },
+      source: nil,
+      expected: ""
     it_should_truncate "no html text with longer length",
       false,
       with: { max_length: 99 },
@@ -15,6 +20,11 @@ describe "Abbreviato" do
     it_should_truncate "no html text with shorter length, no tail",
       true,
       with: { max_length: 12, tail: "" },
+      source: "some text",
+      expected: "<p>some </p>"
+    it_should_truncate "no html text with shorter length, nil tail",
+      true,
+      with: { max_length: 12, tail: nil },
       source: "some text",
       expected: "<p>some </p>"
     it_should_truncate "no html text with shorter length, with tail",
