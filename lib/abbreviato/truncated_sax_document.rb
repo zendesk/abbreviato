@@ -29,7 +29,10 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   # This method is called when the parser encounters an open tag
   def start_element(name, attributes)
-    return if max_length_reached || ignorable_tag?(name)
+    if max_length_reached || ignorable_tag?(name)
+      @truncated = true if max_length_reached
+      return
+    end
 
     # If already in ignore mode, go in deeper
     if ignore_mode?

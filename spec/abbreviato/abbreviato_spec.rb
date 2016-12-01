@@ -237,6 +237,14 @@ describe "Abbreviato" do
       with: { max_length: 10 },
       source: "<<< /  > < 0)(*&^*&^%${#}><? < /",
       expected: ""
+    it_truncates "outer tags fit exactly",
+      with: { max_length: 13 },
+      source: "<span><p></p></span>",
+      expected: "<span></span>"
+    it_truncates "outer tags and opening inner tag fit exactly",
+      with: { max_length: 16 },
+      source: "<span><p></p></span>",
+      expected: "<span></span>"
   end
 
   describe "void tags" do
