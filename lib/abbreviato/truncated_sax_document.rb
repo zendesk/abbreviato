@@ -36,7 +36,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
     # If already in ignore mode, go in deeper
     if ignore_mode?
-      enter_ignored_level unless single_tag_element?(name)
+      enter_ignored_level(name)
       return
     end
 
@@ -46,7 +46,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     length_of_tags = overridden_tag_length(name, string_to_add)
     if length_of_tags > remaining_length
       @truncated = true
-      enter_ignored_level unless single_tag_element?(name)
+      enter_ignored_level(name)
       return
     end
 
@@ -183,8 +183,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     IGNORABLE_TAGS.include?(name.downcase)
   end
 
-  def enter_ignored_level
-    @ignored_levels += 1
+  def enter_ignored_level(name)
+    @ignored_levels += 1 unless single_tag_element?(name)
   end
 
   def exit_ignored_level
