@@ -4,8 +4,9 @@ module Abbreviato
       tail: "..."
   }.freeze
 
-  # Truncates the source XML string and returns the truncated XML. It will keep a valid XML structure
-  # and insert a _tail_ text indicating the position where content were removed (...).
+  # Truncates the source XML string and returns the truncated XML and a boolean flag indicating
+  # whether any truncation took place. It will keep a valid XML structure
+  # and insert a _tail_ text indicating the position where content was removed (...).
   #
   # @param [String] source the XML source to truncate
   # @param [Hash] user_options truncation options
