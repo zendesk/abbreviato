@@ -245,6 +245,18 @@ describe "Abbreviato" do
       with: { max_length: 16 },
       source: "<span><p></p></span>",
       expected: "<span></span>"
+    it_truncates "void tags which do not fit",
+      with: { max_length: 5 },
+      source: "<command>",
+      expected: ""
+    it_truncates "void tags within outer tags which do not fit",
+      with: { max_length: 15 },
+      source: "<p><command/></p>",
+      expected: "<p></p>"
+    it_does_not_truncate "void tags within outer tags which fit",
+      with: { max_length: 17 },
+      source: "<p><command/></p>",
+      expected: "<p><command/></p>"
   end
 
   describe "void tags" do

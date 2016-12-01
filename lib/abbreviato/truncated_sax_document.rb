@@ -45,6 +45,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     # Abort if there is not enough space to add the combined opening tag and (potentially) the closing tag
     length_of_tags = overridden_tag_length(name, string_to_add)
     if length_of_tags > remaining_length
+      @truncated = true
       enter_ignored_level unless single_tag_element?(name)
       return
     end
@@ -183,7 +184,6 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def enter_ignored_level
-    @truncated = true
     @ignored_levels += 1
   end
 
