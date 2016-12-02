@@ -29,8 +29,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   # This method is called when the parser encounters an open tag
   def start_element(name, attributes)
-    if max_length_reached || ignorable_tag?(name)
-      @truncated = true if max_length_reached
+    if max_length_reached? || ignorable_tag?(name)
+      @truncated = true if max_length_reached?
       return
     end
 
@@ -58,7 +58,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   # This method is called when the parser encounters characters between tags
   def characters(decoded_string)
-    if max_length_reached || ignore_mode?
+    if max_length_reached? || ignore_mode?
       @truncated = true
       return
     end
@@ -110,7 +110,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
       exit_ignored_level(name)
       return
     end
-    return if max_length_reached || ignorable_tag?(name)
+    return if max_length_reached? || ignorable_tag?(name)
 
     unless single_tag_element?(name)
       @closing_tags.pop
@@ -163,7 +163,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     end.rstrip
   end
 
-  def max_length_reached
+  def max_length_reached?
     @estimated_length >= max_length
   end
 
