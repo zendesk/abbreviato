@@ -104,7 +104,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   # This method is called when the parser encounters a closing tag
   def end_element(name)
     if ignore_mode?
-      exit_ignored_level unless single_tag_element?(name)
+      exit_ignored_level(name)
       return
     end
     return if max_length_reached || ignorable_tag?(name)
@@ -187,8 +187,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @ignored_levels += 1 unless single_tag_element?(name)
   end
 
-  def exit_ignored_level
-    @ignored_levels -= 1
+  def exit_ignored_level(name)
+    @ignored_levels -= 1 unless single_tag_element?(name)
   end
 
   def ignore_mode?
