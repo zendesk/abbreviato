@@ -58,7 +58,10 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   # This method is called when the parser encounters characters between tags
   def characters(decoded_string)
-    return if max_length_reached || ignore_mode?
+    if max_length_reached || ignore_mode?
+      @truncated = true
+      return
+    end
 
     # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
     encoded_string = @html_coder.encode(decoded_string, :named)

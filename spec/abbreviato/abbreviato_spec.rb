@@ -257,6 +257,10 @@ describe "Abbreviato" do
       with: { max_length: 17 },
       source: "<p><command/></p>",
       expected: "<p><command/></p>"
+    it_truncates "outer tags which fit perfectly within inner content",
+      with: { max_length: 7 },
+      source: "<p>hello</p>",
+      expected: "<p></p>"
   end
 
   describe "void tags" do
