@@ -115,7 +115,7 @@ describe "Abbreviato" do
       source: "<o:p>&nbsp;</o:p>",
       expected: "<o:p>&nbsp;</o:p>"
 
-    it_truncates "not truncate html entities (all or nothing)",
+    it_truncates "while preserving html entities (all or nothing)",
       with: { max_length: 26 }, # Too small to bring all of &nbsp; in
       source: "<o:p>Hello there&nbsp;</o:p>",
       expected: "<o:p>Hello there...</o:p>"
