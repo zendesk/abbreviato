@@ -277,6 +277,45 @@ describe "Abbreviato" do
     end
   end
 
+  describe "fragment mode" do
+    it_truncates "doesn't add `head` and `body` tags",
+      with: { max_length: 15 },
+      source: "<p>hello there</p>",
+      expected: "<p>hello...</p>"
+  end
+
+  describe "document mode" do
+    it_truncates "preserves `html`, `head` and `body` tags",
+      with: { max_length: 54, fragment: false },
+      source: "<html><head></head><body><p>hello there</p></body></html>",
+      expected: "<html><head></head><body><p>hello...</p></body></html>"
+
+    it_does_not_truncate "preserves html attributes",
+      with: { max_length: 999, fragment: false },
+      source: "<html xmlns:v='urn:schemas-microsoft-com:vml' xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml' xmlns='http://www.w3.org/TR/REC-html40'></html>",
+      expected: "<html xmlns:v='urn:schemas-microsoft-com:vml' xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml' xmlns='http://www.w3.org/TR/REC-html40'></html>"
+
+    it_does_not_truncate "preserves meta tags and their attributes",
+      with: { max_length: 999, fragment: false },
+      source: "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head></html>",
+      expected: "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/></head></html>"
+
+    it_does_not_truncate "preserves comments in the head",
+      with: { max_length: 999, fragment: false },
+      source: "<html><head><!--[if !mso]><style>v\\:* {behavior:url(#default#VML);} o\\:* {behavior:url(#default#VML);} w\\:* {behavior:url(#default#VML);} .shape {behavior:url(#default#VML);} </style><![endif]--></head></html>",
+      expected: "<html><head><!--[if !mso]><style>v\\:* {behavior:url(#default#VML);} o\\:* {behavior:url(#default#VML);} w\\:* {behavior:url(#default#VML);} .shape {behavior:url(#default#VML);} </style><![endif]--></head></html>"
+
+    it_does_not_truncate "preserves styles",
+      with: { max_length: 999, fragment: false },
+      source: "<html><head><style><!-- /* Font Definitions */ @font-face {font-family:Wingdings; panose-1:5 0 0 0 0 0 0 0 0 0;} </style></head></html>",
+      expected: "<html><head><style><!-- /* Font Definitions */ @font-face {font-family:Wingdings; panose-1:5 0 0 0 0 0 0 0 0 0;} </style></head></html>"
+
+    it_does_not_truncate "preservers body attributes",
+      with: { max_length: 999, fragment: false },
+      source: "<html><body lang='EN-US' link='blue' vlink='purple'></body></html>",
+      expected: "<html><body lang='EN-US' link='blue' vlink='purple'></body></html>"
+  end
+
   describe "wbr element support" do
     it_does_not_truncate "preserves <wbr> elements",
       with: { max_length: 100 },

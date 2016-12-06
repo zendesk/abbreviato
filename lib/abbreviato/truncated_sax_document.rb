@@ -19,6 +19,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
     @max_length = options[:max_length]
     @tail = options[:tail] || ''
+    @fragment_mode = options[:fragment]
 
     @truncated_string = ""
     @closing_tags = []
@@ -183,7 +184,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def ignorable_tag?(name)
-    IGNORABLE_TAGS.include?(name.downcase)
+    @fragment_mode && IGNORABLE_TAGS.include?(name.downcase)
   end
 
   def enter_ignored_level(name)

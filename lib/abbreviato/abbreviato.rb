@@ -1,7 +1,8 @@
 module Abbreviato
   DEFAULT_OPTIONS = {
       max_length: 30,
-      tail: "..."
+      tail: "...",
+      fragment: true
   }.freeze
 
   # Truncates the source XML string and returns the truncated XML and a boolean flag indicating
