@@ -29,9 +29,9 @@ describe "Abbreviato" do
       source: "some text",
       expected: "<p>some </p>"
     it_truncates "no html text with shorter length, with tail",
-      with: { max_length: 12 },
+      with: { max_length: 17 },
       source: "This is some text",
-      expected: "<p>Th...</p>"
+      expected: "<p>Th&hellip;</p>"
   end
 
   describe "multi-byte strings" do
@@ -46,7 +46,7 @@ describe "Abbreviato" do
       source: "𠝹𠝹𠝹𠝹𠝹𠝹𠝹𠝹",
       expected: "<p>𠝹</p>"
     it_truncates "no html text with shorter length, with tail",
-      with: { max_length: 14 },
+      with: { max_length: 14, tail: '...' },
       source: "𠝹𠝹",
       expected: "<p>𠝹...</p>"
   end
@@ -81,88 +81,88 @@ describe "Abbreviato" do
 
   describe "html tags structure" do
     it_truncates "html text with tag",
-      with: { max_length: 14 },
+      with: { max_length: 14, tail: '...' },
       source: "<p>some text</p>",
       expected: "<p>some...</p>"
 
     it_truncates "html text with nested tags (first node)",
-      with: { max_length: 22 },
+      with: { max_length: 22, tail: '...' },
       source: "<div><p>some text 1</p><p>some text 2</p></div>",
       expected: "<div><p>s...</p></div>"
 
     it_truncates "html text with nested tags (second node)",
-      with: { max_length: 46 },
+      with: { max_length: 46, tail: '...' },
       source: "<div><p>some text 1</p><p>some text 2</p></div>",
       expected: "<div><p>some text 1</p><p>some te...</p></div>"
 
     it_truncates "html text with nested tags (empty contents)",
-      with: { max_length: 13 },
+      with: { max_length: 13, tail: '...' },
       source: "<div><p>some text 1</p><p>some text 2</p></div>",
       expected: "<div></div>"
 
     it_truncates "html text with special html entities",
-      with: { max_length: 15 },
+      with: { max_length: 15, tail: '...' },
       source: "<p>&gt;some text</p>",
       expected: "<p>&gt;s...</p>"
 
     it_truncates "html text with siblings tags",
-      with: { max_length: 64 },
+      with: { max_length: 64, tail: '...' },
       source: "<div>some text 0</div><div><p>some text 1</p><p>some text 2</p></div>",
       expected: "<div>some text 0</div><div><p>some text 1</p><p>som...</p></div>"
 
     it_does_not_truncate "html with unclosed tags",
-      with: { max_length: 151 },
+      with: { max_length: 151, tail: '...' },
       source: "<table><tr><td>Hi <br> there</td></tr></table>",
       expected: "<table><tr><td>Hi <br/> there</td></tr></table>"
 
     it_does_not_truncate "preserve html entities",
-      with: { max_length: 99 },
+      with: { max_length: 99, tail: '...' },
       source: "<o:p>&nbsp;</o:p>",
       expected: "<o:p>&nbsp;</o:p>"
 
     it_truncates "while preserving html entities (all or nothing)",
-      with: { max_length: 26 }, # Too small to bring all of &nbsp; in
+      with: { max_length: 26, tail: '...' }, # Too small to bring all of &nbsp; in
       source: "<o:p>Hello there&nbsp;</o:p>",
       expected: "<o:p>Hello there...</o:p>"
   end
 
   describe "single html tag elements" do
     it_truncates "html text with <br /> element without adding a closing tag",
-      with: { max_length: 30 },
+      with: { max_length: 30, tail: '...' },
       source: "<div><h1><br/>some text 1</h1><p>some text 2</p></div>",
       expected: "<div><h1><br/>so...</h1></div>"
 
     it_truncates "html text with <br /> element with a closing tag",
-      with: { max_length: 30 },
+      with: { max_length: 30, tail: '...' },
       source: "<div><h1><br></br>some text 1</h1><p>some text 2</p></div>",
       expected: "<div><h1><br/>so...</h1></div>"
 
     it_truncates "html text with <img/> element without adding a closing tag",
-      with: { max_length: 45 },
+      with: { max_length: 45, tail: '...' },
       source: "<div><p><img src='some_path'/>some text 1</p><p>some text 2</p></div>",
       expected: "<div><p><img src='some_path'/>so...</p></div>"
 
     it_truncates "html text with <img/> element with a closing tag",
-      with: { max_length: 45 },
+      with: { max_length: 45, tail: '...' },
       source: "<div><p><img src='some_path'></img>some text 1</p><p>some text 2</p></div>",
       expected: "<div><p><img src='some_path'/>so...</p></div>"
   end
 
   describe "invalid html" do
     it_truncates "html text with unclosed elements 1",
-      with: { max_length: 30 },
+      with: { max_length: 30, tail: '...' },
       source: "<div><h1><br/>some text 1</h1><p>some text 2",
       expected: "<div><h1><br/>so...</h1></div>"
     it_truncates "html text with unclosed elements 2",
-      with: { max_length: 30 },
+      with: { max_length: 30, tail: '...' },
       source: "<div><h1><br>some text 1<p>some text 2",
       expected: "<div><h1><br/>so...</h1></div>"
     it_truncates "html text with unclosed br element",
-      with: { max_length: 30 },
+      with: { max_length: 30, tail: '...' },
       source: "<div><h1><br>some text 1</h1><p>some text 2",
       expected: "<div><h1><br/>so...</h1></div>"
     it_truncates "html text with mis-matched elements",
-      with: { max_length: 30 },
+      with: { max_length: 30, tail: '...' },
       source: "<div><h1><br/>some text 1</h2><p>some text 2</span></table>",
       expected: "<div><h1><br/>so...</h1></div>"
   end
@@ -181,17 +181,17 @@ describe "Abbreviato" do
 
   describe "html attributes" do
     it_truncates "html text with 1 attributes",
-      with: { max_length: 23 },
+      with: { max_length: 23, tail: '...' },
       source: "<p attr1='1'>some text</p>",
       expected: "<p attr1='1'>som...</p>"
 
     it_truncates "html text with 2 attributes",
-      with: { max_length: 33 },
+      with: { max_length: 33, tail: '...' },
       source: "<p attr1='1' attr2='2'>some text</p>",
       expected: "<p attr1='1' attr2='2'>som...</p>"
 
     it_truncates "html text with attributes in nested tags",
-      with: { max_length: 35 },
+      with: { max_length: 35, tail: '...' },
       source: "<div><p attr1='1'>some text</p></div>",
       expected: "<div><p attr1='1'>some...</p></div>"
   end
@@ -208,19 +208,19 @@ describe "Abbreviato" do
 
   describe "edge-cases: long tags" do
     it_truncates "completely removes tags and contents if the tags will not fit",
-      with: { max_length: 33 },
+      with: { max_length: 33, tail: '...' },
       source: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>",
       expected: ""
     it_truncates "does not allow closing tags to get added without opening tags",
-      with: { max_length: 61 },
+      with: { max_length: 61, tail: '...' },
       source: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>",
       expected: "<really_a_very_long_tag_name></really_a_very_long_tag_name>"
     it_truncates "does not allow closing tags to get added without opening tags",
-      with: { max_length: 62 },
+      with: { max_length: 62, tail: '...' },
       source: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>",
       expected: "<really_a_very_long_tag_name>...</really_a_very_long_tag_name>"
     it_does_not_truncate "does not allow closing tags to get added without opening tags",
-      with: { max_length: 63 },
+      with: { max_length: 63, tail: '...' },
       source: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>",
       expected: "<really_a_very_long_tag_name>text</really_a_very_long_tag_name>"
   end
@@ -284,39 +284,39 @@ describe "Abbreviato" do
 
   describe "fragment mode" do
     it_truncates "doesn't add `head` and `body` tags",
-      with: { max_length: 15 },
+      with: { max_length: 15, tail: '...' },
       source: "<p>hello there</p>",
       expected: "<p>hello...</p>"
   end
 
   describe "document mode" do
     it_truncates "preserves `html`, `head` and `body` tags",
-      with: { max_length: 54, fragment: false },
+      with: { max_length: 54, fragment: false, tail: '...' },
       source: "<html><head></head><body><p>hello there</p></body></html>",
       expected: "<html><head></head><body><p>hello...</p></body></html>"
 
     it_does_not_truncate "preserves html attributes",
-      with: { max_length: 999, fragment: false },
+      with: { max_length: 999, fragment: false, tail: '...' },
       source: "<html xmlns:v='urn:schemas-microsoft-com:vml' xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml' xmlns='http://www.w3.org/TR/REC-html40'></html>",
       expected: "<html xmlns:v='urn:schemas-microsoft-com:vml' xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml' xmlns='http://www.w3.org/TR/REC-html40'></html>"
 
     it_does_not_truncate "preserves meta tags and their attributes",
-      with: { max_length: 999, fragment: false },
+      with: { max_length: 999, fragment: false, tail: '...' },
       source: "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head></html>",
       expected: "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/></head></html>"
 
     it_does_not_truncate "preserves comments in the head",
-      with: { max_length: 999, fragment: false },
+      with: { max_length: 999, fragment: false, tail: '...' },
       source: "<html><head><!--[if !mso]><style>v\\:* {behavior:url(#default#VML);} o\\:* {behavior:url(#default#VML);} w\\:* {behavior:url(#default#VML);} .shape {behavior:url(#default#VML);} </style><![endif]--></head></html>",
       expected: "<html><head><!--[if !mso]><style>v\\:* {behavior:url(#default#VML);} o\\:* {behavior:url(#default#VML);} w\\:* {behavior:url(#default#VML);} .shape {behavior:url(#default#VML);} </style><![endif]--></head></html>"
 
     it_does_not_truncate "preserves styles",
-      with: { max_length: 999, fragment: false },
+      with: { max_length: 999, fragment: false, tail: '...' },
       source: "<html><head><style><!-- /* Font Definitions */ @font-face {font-family:Wingdings; panose-1:5 0 0 0 0 0 0 0 0 0;} </style></head></html>",
       expected: "<html><head><style><!-- /* Font Definitions */ @font-face {font-family:Wingdings; panose-1:5 0 0 0 0 0 0 0 0 0;} </style></head></html>"
 
     it_does_not_truncate "preservers body attributes",
-      with: { max_length: 999, fragment: false },
+      with: { max_length: 999, fragment: false, tail: '...' },
       source: "<html><body lang='EN-US' link='blue' vlink='purple'></body></html>",
       expected: "<html><body lang='EN-US' link='blue' vlink='purple'></body></html>"
   end
