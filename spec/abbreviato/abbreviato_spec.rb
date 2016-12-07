@@ -370,9 +370,21 @@ describe "Abbreviato" do
   #   File.open('spec/fixtures/real_world_example_truncated.html', 'w') { |file| file.write(truncated) }
   # end
 
-  describe "Brakeman" do
-    it "is up to date" do
+  describe "Brakecheck" do
+    it "brakeman is up to date" do
       expect("brakeman").to be_the_latest_version
+    end
+
+    it "rupocop is up to date" do
+      expect("rubocop").to be_the_latest_version
+    end
+
+    it "bundle-audit is up to date" do
+      expect("bundler-audit").to be_the_latest_version
+    end
+
+    it "flay is up to date" do
+      expect("flay").to be_the_latest_version
     end
   end
 end
