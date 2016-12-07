@@ -15,7 +15,7 @@ module Abbreviato
   # @option user_options [String] :tail text to append when the truncation happens
   # @return [[String] the truncated string, [boolean] whether the string was truncated]
   def self.truncate(source = '', user_options = {})
-    return ['', false] if source.nil?
+    return [nil, false] if source.nil?
     truncated_sax_document = TruncatedSaxDocument.new(DEFAULT_OPTIONS.merge(user_options))
     parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document)
     parser.parse(source) { |context| context.replace_entities = false }

@@ -7,10 +7,15 @@ describe "Abbreviato" do
   NBSP = Nokogiri::HTML("&nbsp;").text
 
   describe "normal strings" do
-    it_does_not_truncate "nil html text with longer length",
+    it "handles nil" do
+      result, truncated = Abbreviato.truncate(nil)
+      expect(result).to be_nil
+      expect(truncated).to be_falsey
+    end
+    it_does_not_truncate "empty html text with longer length",
       with: { max_length: 99 },
-      source: nil,
-      expected: ""
+      source: '',
+      expected: ''
     it_does_not_truncate "no html text with longer length",
       with: { max_length: 99 },
       source: "This is some text",
