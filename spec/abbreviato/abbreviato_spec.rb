@@ -382,20 +382,10 @@ describe "Abbreviato" do
   # end
 
   describe "Brakecheck" do
-    it "brakeman is up to date" do
-      expect("brakeman").to be_the_latest_version
-    end
-
-    it "rupocop is up to date" do
-      expect("rubocop").to be_the_latest_version
-    end
-
-    it "bundle-audit is up to date" do
-      expect("bundler-audit").to be_the_latest_version
-    end
-
-    it "flay is up to date" do
-      expect("flay").to be_the_latest_version
+    %w[brakecheck brakeman bundler-audit rubocop flay].each do |gem_name|
+      it "#{gem_name} is up to date" do
+        expect(Brakecheck.compare(gem_name)).to include(true)
+      end
     end
   end
 end
