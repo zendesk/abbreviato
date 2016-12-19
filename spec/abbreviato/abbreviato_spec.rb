@@ -120,7 +120,7 @@ describe "Abbreviato" do
       source: "<o:p>&nbsp;</o:p>",
       expected: "<o:p>&nbsp;</o:p>"
 
-    it_truncates "while preserving html entities (all or nothing)",
+    it_truncates "preserves entire html entities (all or nothing)",
       with: { max_length: 26, tail: '...' }, # Too small to bring all of &nbsp; in
       source: "<o:p>Hello there&nbsp;</o:p>",
       expected: "<o:p>Hello there...</o:p>"
@@ -326,6 +326,17 @@ describe "Abbreviato" do
       with: { max_length: 100 },
       source: "<p>The quick<wbr>brown fox<wbr>jumped over the lazy dog</p>",
       expected: "<p>The quick<wbr/>brown fox<wbr/>jumped over the lazy dog</p>"
+  end
+
+  describe "entity conversion" do
+    it_does_not_truncate "converts © character into html entity",
+      with: { max_length: 100 },
+      source: "<p>© Copyright</p>",
+      expected: "<p>&copy; Copyright</p>"
+    it_does_not_truncate "converts non-english characters into html entities",
+      with: { max_length: 200 },
+      source: "<p>Ursäkta det tagit lite tid men jag väntade på krediteringen på 160 kr vilken aldrig kom (som vanligt).</p>",
+      expected: "<p>Urs&auml;kta det tagit lite tid men jag v&auml;ntade p&aring; krediteringen p&aring; 160 kr vilken aldrig kom (som vanligt).</p>"
   end
 
   let(:html_1Kb_doc) { File.read('spec/fixtures/html_1Mb.html') }
