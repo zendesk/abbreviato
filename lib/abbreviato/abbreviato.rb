@@ -12,7 +12,10 @@ module Abbreviato
   # @param [String] source the XML source to truncate
   # @param [Hash] user_options truncation options
   # @option user_options [Integer] :max_length Maximum length
-  # @option user_options [String] :tail text to append when the truncation happens
+  # @option user_options [String] :tail Text to append when the truncation happens
+  # @option user_options [Boolean] :fragment Indicates whether the document to be truncated is an HTML fragment
+  #     or an entire document (with `HTML`, `HEAD` & `BODY` tags). Setting to true prevents automatic addition of
+  #     these tags if they are missing. Defaults to `true`.
   # @return [[String] the truncated string, [boolean] whether the string was truncated]
   def self.truncate(source = '', user_options = {})
     return [nil, false] if source.nil?
