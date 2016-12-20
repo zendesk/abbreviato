@@ -111,6 +111,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
       exit_ignored_level(name)
       return
     end
+
+    # Note that any remaining end tags get added automatically (in `end_document`) as the document is closed
     return if max_length_reached? || ignorable_tag?(name)
 
     unless single_tag_element?(name)
@@ -122,7 +124,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def end_document
-    @closing_tags.reverse_each { |name| append_to_truncated_string(closing_tag(name)) }
+    @closing_tags.reverse_each { |name| append_to_truncated_string(closing_tag(name), 0) }
   end
 
   private
