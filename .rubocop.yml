@@ -1,0 +1,182 @@
+# https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+
+Style/BlockDelimiters:
+  Enabled: false
+
+ShadowingOuterLocalVariable:
+  Enabled: false
+
+LineLength:
+  Enabled: false
+
+ClassLength:
+  Enabled: false
+
+Style/CommentIndentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+HashSyntax:
+   EnforcedStyle: ruby19
+
+Style/SignalException:
+  Enabled: false
+
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Lint/AmbiguousOperator:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Lint/EndAlignment:
+  AlignWith: variable
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/FirstParameterIndentation:
+  Enabled: false
+
+Style/IndentHash:
+  Enabled: false
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/MultilineOperationIndentation:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/ExtraSpacing:
+  Enabled: false
+
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/TrailingCommaInLiteral:
+  Enabled: false
+
+Style/PerlBackrefs:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+# alias / alias_method are both fine
+Style/Alias:
+  Enabled: false
+
+# nice for .with{} mock stubs
+Style/Semicolon:
+  Enabled: false
+
+# for simple cases more readable
+Style/GuardClause:
+  Enabled: false
+
+# sometimes the most readable way of doing things
+Style/ClassVars:
+  Enabled: false
+
+# for single `/` more readable
+Style/RegexpLiteral:
+  Enabled: false
+
+# %w[] shows that it will return an array
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%i': '[]'
+    '%w': '[]'
+    '%W': '[]'
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+# Looks correct / intuitive
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: false
+
+# We use it a few times in tests and nobody does random nested method definitions
+Lint/NestedMethodDefinition:
+  Enabled: false
+
+Style/FormatString:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Enabled: false
+
+Style/IndentationWidth:
+  Width: 2
+
+Lint/NonLocalExitFromIterator:
+  Enabled: false
+
+# Often makes logical sense to not combine if with elsif
+Style/IfInsideElse:
+  Enabled: false
+
+# nil is often a perfectly fine exception result
+Lint/HandleExceptions:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.1
+  Include:
+    - 'Gemfile'
+    - 'Rakefile'
+  Exclude:
+    - 'gemfiles/**/*'
+    - 'vendor/cache/**/*'

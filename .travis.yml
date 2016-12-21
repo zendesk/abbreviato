@@ -1,4 +1,10 @@
 language: ruby
+bundler_args: ""
 rvm:
-  - 1.9.3
-  - 2.0.0
+  - 2.2.3
+script:
+  - bundle exec rspec
+  - bundle exec rubocop
+  - bundle exec bundle-audit
+  - bundle exec flay
+  - bundle exec brakeman --exit-on-warn --force-scan lib --ignore-config .brakeman.ignore

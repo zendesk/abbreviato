@@ -4,6 +4,8 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rubygems'
 require 'bundler'
 require 'nokogiri'
+require 'rspec-benchmark'
+require 'benchmark/memory'
 
 Bundler.setup
 Bundler.require
@@ -13,5 +15,14 @@ Bundler.require
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
-  config.extend TruncatoMacros
+  config.extend AbbreviatoMacros
+  config.include RSpec::Benchmark::Matchers
+end
+
+RSpec::Matchers.define :be_valid_html do
+  match do |actual|
+    # Fires exception
+    Nokogiri::HTML("<html><body>#{actual}</body></html>", &:strict)
+    true
+  end
 end

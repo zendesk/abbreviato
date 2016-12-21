@@ -6,11 +6,11 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "truncato/version"
+require "abbreviato/version"
 
 Gem::Specification.new do |s|
-  s.name = "truncato"
-  s.version = Truncato::VERSION
+  s.name = "abbreviato"
+  s.version = Abbreviato::VERSION
 
   s.authors = ["Jorge Manrubia"]
   s.date = "2013-09-10"
@@ -21,16 +21,22 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE.txt", "Rakefile", "README.rdoc"]
-  s.homepage = "https://github.com/jorgemanrubia/truncato"
+  s.homepage = "https://github.com/jorgemanrubia/abbreviato"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.0.2"
   s.summary = "A tool for truncating HTML strings efficiently"
 
-  s.add_dependency "nokogiri", "~> 1.6.1"
-  s.add_dependency "htmlentities", "~> 4.3.1"
+  s.add_dependency "nokogiri", "~> 1.6.8"
+  s.add_dependency "htmlentities", "~> 4.3.4"
 
-  s.add_development_dependency "rspec", '~> 2.14.1'
-  s.add_development_dependency "rake", '~> 10.1.1'
+  s.add_development_dependency "rspec", '~> 3.5.0'
+  s.add_development_dependency "rake", '~> 11.3.0'
+  s.add_development_dependency "byebug"
+  s.add_development_dependency "awesome_print"
+  s.add_development_dependency "rspec-benchmark"
+  s.add_development_dependency "flay"
+  s.add_development_dependency "bundler-audit"
+  s.add_development_dependency "benchmark-memory"
 end
 

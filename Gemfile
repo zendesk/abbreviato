@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 gemspec
 
-
 # Add dependencies required to use your gem here.
 # Example:
 #   gem "activesupport", ">= 2.3.5"
@@ -10,10 +9,10 @@ gemspec
 # Include everything needed to run rake, tests, features, etc.
 
 group :development do
-  gem "bundler", "~> 1.3"
-end
-
-group :benchrmark do
-  gem 'html_truncator'
-  gem 'peppercorn'
+  gem 'brakecheck'
+  gem 'brakeman', require: false
+  gem 'bundler'
+  gem 'bundler-audit', require: false
+  gem 'flay', require: false
+  gem 'rubocop', require: false
 end
