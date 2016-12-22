@@ -1,19 +1,12 @@
-begin
-  require 'bundler/setup'
-rescue LoadError
-  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
-end
+require 'wwtd/tasks'
+require 'bundler/gem_tasks'
+require 'bump/tasks'
+require 'bundler/setup'
 
 Bundler::GemHelper.install_tasks
 
-require 'rake/testtask'
-
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = false
-end
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
 
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new
@@ -21,4 +14,4 @@ RuboCop::RakeTask.new
 require 'bundler/audit/task'
 Bundler::Audit::Task.new
 
-task default: :test
+task default: :wwtd
