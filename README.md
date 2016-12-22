@@ -41,3 +41,21 @@ bundle exec rake
 bundle exec wwtd
 ```
 
+## Updating
+
+Update the version
+```ruby
+bundle exec bump patch
+```
+
+Build
+```ruby
+gem build abbreviato.gemspec
+
+Publish
+```ruby
+gem push abbreviato-x.y.z.gem
+```
+
+
+
