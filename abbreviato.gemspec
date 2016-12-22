@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.authors = ["Jorge Manrubia"]
   s.date = "2013-09-10"
-  s.description = "Truncate HTML to a specific bytesize keeping valid markup"
+  s.description = "Truncate HTML to a specific bytesize, while keeping valid markup"
   s.email = "jorge.manrubia@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.0.2"
-  s.summary = "A tool for truncating HTML strings to a specific bytesize efficiently"
+  s.summary = "A tool for efficiently truncating HTML strings to a specific bytesize"
 
   s.add_dependency "nokogiri", "~> 1.6.8"
   s.add_dependency "htmlentities", "~> 4.3.4"
