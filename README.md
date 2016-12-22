@@ -19,7 +19,11 @@ truncated_string, was_truncated = Abbreviato.truncate("<p>some text</p>", max_le
 The configuration options are:
 
 * `max_length`: The size, in bytes, to truncate (`30` by default)
-* `tail`: The string to append when the truncation occurs ('...' by default). Supports HTML entities such as '&hellip;'
+* `tail`: The string to append when the truncation occurs ('&hellip;' by default).
+# `fragment`: Indicates whether the document to be truncated is an HTML fragment
+# or an entire document (with `HTML`, `HEAD` & `BODY` tags). Setting to true prevents automatic
+# addition of these tags if they are missing. Defaults to `true`.
+
 
 ## Performance
 
@@ -28,7 +32,30 @@ Abbreviato was designed with performance in mind. Its main motivation was that e
 ## Running the tests
 
 ```ruby
-rspec
+bundle exec rake
 ```
+
+## Running all checks
+
+```ruby
+bundle exec wwtd
+```
+
+## Updating
+
+Update the version
+```ruby
+bundle exec bump patch
+```
+
+Build
+```ruby
+gem build abbreviato.gemspec
+
+Publish
+```ruby
+gem push abbreviato-x.y.z.gem
+```
+
 
 
