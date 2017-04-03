@@ -1,7 +1,7 @@
+require 'bundler/setup'
 require 'wwtd/tasks'
 require 'bundler/gem_tasks'
 require 'bump/tasks'
-require 'bundler/setup'
 
 Bundler::GemHelper.install_tasks
 
