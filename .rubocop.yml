@@ -182,4 +182,5 @@ AllCops:
     - 'Rakefile'
   Exclude:
     - 'gemfiles/**/*'
-    - 'vendor/cache/**/*'
+    - 'vendor/**/*' # Gems in Travis.
+    - 'log/**/*'
