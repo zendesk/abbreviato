@@ -1,13 +1,16 @@
 dist: trusty
 sudo: false
 language: ruby
+branches:
+  only: [master]
 rvm:
   - 2.2.4
-bundler_args: ""
 cache: bundler
-script:
-  - bundle exec rspec
-  - bundle exec rubocop --display-cop-names
-  - bundle exec bundle-audit
-  - bundle exec flay
-  - bundle exec brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore
+bundler_args: ""
+script: bundle exec $TASK
+env:
+ - TASK='rspec'
+ - TASK='bundle-audit'
+ - TASK='brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore'
+ - TASK='rubocop --display-cop-names --display-style-guide --config .rubocop.yml --force-exclusion vendor/cache/**/*'
+ - TASK='flay'
