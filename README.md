@@ -20,10 +20,8 @@ The configuration options are:
 
 * `max_length`: The size, in bytes, to truncate (`30` by default)
 * `tail`: The string to append when the truncation occurs ('&hellip;' by default).
-# `fragment`: Indicates whether the document to be truncated is an HTML fragment
-# or an entire document (with `HTML`, `HEAD` & `BODY` tags). Setting to true prevents automatic
-# addition of these tags if they are missing. Defaults to `true`.
-
+* `fragment`: Indicates whether the document to be truncated is an HTML fragment or an entire document (with `HTML`, `HEAD` & `BODY` tags). Setting to true prevents automatic
+addition of these tags if they are missing. Defaults to `true`.
 
 ## Performance
 
@@ -56,6 +54,3 @@ Publish
 ```ruby
 gem push abbreviato-x.y.z.gem
 ```
-
-
-
