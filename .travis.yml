@@ -7,10 +7,11 @@ rvm:
   - 2.2.4
 cache: bundler
 bundler_args: ""
-script: bundle exec $TASK
+script: bundle exec rake $TASK
 env:
- - TASK='rspec'
- - TASK='bundle-audit'
- - TASK='brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore'
- - TASK='rubocop --display-cop-names --display-style-guide --config .rubocop.yml --force-exclusion vendor/cache/**/*'
+ - TASK='spec'
+ - TASK='bundle:audit'
+ - TASK='brakeman'
+ - TASK='brakecheck'
  - TASK='flay'
+ - TASK='rubocop'
