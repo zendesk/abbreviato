@@ -12,7 +12,7 @@ LineLength:
 ClassLength:
   Enabled: false
 
-Style/CommentIndentation:
+Layout/CommentIndentation:
   Enabled: false
 
 Style/ClassAndModuleChildren:
@@ -27,7 +27,7 @@ HashSyntax:
 Style/SignalException:
   Enabled: false
 
-Style/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
 Lint/AmbiguousOperator:
@@ -57,16 +57,16 @@ Style/StringLiteralsInInterpolation:
 Style/NumericLiterals:
   Enabled: false
 
-Style/FirstParameterIndentation:
+Layout/FirstParameterIndentation:
   Enabled: false
 
-Style/IndentHash:
+Layout/IndentHash:
   Enabled: false
 
-Style/AlignParameters:
+Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
-Style/MultilineOperationIndentation:
+Layout/MultilineOperationIndentation:
   Enabled: false
 
 Metrics/ModuleLength:
@@ -90,13 +90,13 @@ Style/Documentation:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
-Style/ExtraSpacing:
+Layout/ExtraSpacing:
   Enabled: false
 
-Style/DotPosition:
+Layout/DotPosition:
   EnforcedStyle: trailing
 
 Style/SingleLineBlockParams:
@@ -161,7 +161,7 @@ Style/FormatString:
 Metrics/BlockNesting:
   Enabled: false
 
-Style/IndentationWidth:
+Layout/IndentationWidth:
   Width: 2
 
 Lint/NonLocalExitFromIterator:
