@@ -22,6 +22,6 @@ module Abbreviato
     truncated_sax_document = TruncatedSaxDocument.new(DEFAULT_OPTIONS.merge(user_options))
     parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document)
     parser.parse(source) { |context| context.replace_entities = false }
-    [truncated_sax_document.truncated_string, truncated_sax_document.truncated]
+    [truncated_sax_document.truncated_string.strip, truncated_sax_document.truncated]
   end
 end
