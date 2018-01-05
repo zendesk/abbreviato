@@ -201,7 +201,7 @@ describe "Abbreviato" do
     let(:cdata_example) { File.read('spec/fixtures/cdata_example.html') }
     it "cdata blocks are preserved" do
       text, truncated = Abbreviato.truncate(cdata_example, max_length: 65535)
-      expect(text.length).to eq 3583
+      expect(text.length).to eq 3581
       expect(truncated).to be_falsey
     end
   end
