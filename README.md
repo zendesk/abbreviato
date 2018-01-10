@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/zendesk/abbreviato.svg?branch=master)](https://travis-ci.org/zendesk/abbreviato)
-
 # abbreviato
 
-*abbreviato* is a Ruby library for truncating HTML strings keeping the markup valid. It is a fork of github.com/jorgemanrubia/truncato but focused on truncating to a bytesize, not on a per-character basis.
+[![Build Status](https://travis-ci.org/zendesk/abbreviato.svg?branch=master)](https://travis-ci.org/zendesk/abbreviato)
+
+*abbreviato* is a Ruby library for truncating HTML strings keeping the markup valid. It is a fork of [jorgemanrubia/truncato](https://github.com/jorgemanrubia/truncato) but focused on truncating to a bytesize, not on a per-character basis.
 
 ## Installing
 
@@ -15,7 +15,8 @@ gem 'abbreviato'
 ## Usage
 
 ```ruby
-truncated_string, was_truncated = Abbreviato.truncate("<p>some text</p>", max_length: 4) #=> ["<p>s...</p>", true]
+truncated_string, was_truncated = Abbreviato.truncate("<p>some text</p>", max_length: 4)
+# => ["<p>s...</p>", true]
 ```
 
 The configuration options are:
@@ -41,15 +42,6 @@ bundle exec rake
 bundle exec wwtd
 ```
 
-## Updating
+## Contribute
 
-```ruby
-# Update the version
-bundle exec bump patch
-
-# Build
-gem build abbreviato.gemspec
-
-# Publish
-gem push abbreviato-x.y.z.gem
-```
+Follow our [contribution guidelines](CONTRIBUTING.md).
