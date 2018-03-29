@@ -102,9 +102,6 @@ Layout/DotPosition:
 Style/SingleLineBlockParams:
   Enabled: false
 
-Style/TrailingCommaInLiteral:
-  Enabled: false
-
 Style/PerlBackrefs:
   Enabled: false
 
