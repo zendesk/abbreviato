@@ -3,7 +3,7 @@ PATH
   specs:
     abbreviato (0.8.3)
       htmlentities (~> 4.3.4)
-      nokogiri (>= 1.8.2)
+      nokogiri (>= 1.8.3)
 
 GEM
   remote: https://rubygems.org/
@@ -32,7 +32,7 @@ GEM
     jaro_winkler (1.5.1-x86_64-darwin-17)
     memory_profiler (0.9.7)
     mini_portile2 (2.3.0)
-    nokogiri (1.8.2)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     parallel (1.12.1)
     parser (2.5.1.0)
@@ -57,10 +57,10 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    rubocop (0.57.2)
+    rubocop (0.58.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.5)
+      parser (>= 2.5, != 2.5.1.1)
       powerpack (~> 0.1)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
@@ -94,4 +94,4 @@ DEPENDENCIES
   wwtd
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

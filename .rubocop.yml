@@ -48,7 +48,7 @@ Metrics/AbcSize:
 Style/WordArray:
   Enabled: false
 
-Lint/EndAlignment:
+Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
 
 Style/StringLiteralsInInterpolation:
@@ -173,7 +173,7 @@ Lint/HandleExceptions:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.2
   Include:
     - 'Gemfile'
     - 'Rakefile'
