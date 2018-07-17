@@ -21,6 +21,8 @@ Pull requests are welcome on GitHub at https://github.com/zendesk/abbreviato
     3. Run `gem build abbreviato.gemspec`
     4. Run `gem push abbreviato-x.y.z.gem`
 
+Note: you need proper credientials from http://rubygems.org. You can follow the guide at [api-authorization](https://guides.rubygems.org/rubygems-org-api/#api-authorization).
+
 ## Coding conventions
 
 - Ruby styleguide: https://github.com/bbatsov/ruby-style-guide
