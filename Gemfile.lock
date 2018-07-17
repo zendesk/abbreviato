@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    abbreviato (0.8.3)
+    abbreviato (0.8.4)
       htmlentities (~> 4.3.4)
       nokogiri (>= 1.8.3)
 
