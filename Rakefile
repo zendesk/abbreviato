@@ -13,6 +13,7 @@ if %w[development test].include?(ENV["RAILS_ENV"] ||= 'development')
     result = `#{command}`
     result.force_encoding('binary')
     raise "Command #{command} failed: #{result}" unless $?.success?
+
     result
   end
 
