@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    abbreviato (0.8.4)
+    abbreviato (0.8.5)
       htmlentities (~> 4.3.4)
       nokogiri (>= 1.8.5)
 
@@ -57,7 +57,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    rubocop (0.60.0)
+    rubocop (0.61.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5, != 2.5.1.1)
