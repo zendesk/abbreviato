@@ -339,6 +339,18 @@ describe "Abbreviato" do
       expected: "<p>Urs&auml;kta det tagit lite tid men jag v&auml;ntade p&aring; krediteringen p&aring; 160 kr vilken aldrig kom (som vanligt).</p>"
   end
 
+  describe "html encoded entities" do
+    it_truncates "html entities",
+      with: { max_length: 18, fragment: true, tail: '...' },
+      source: '""""',
+      expected: "<p>&quot;...</p>"
+
+    it_truncates "text with html entitities",
+      with: { max_length: 50, fragment: true, tail: '...' },
+      source: 'table  cellpadding="0" cellspacing="0"',
+      expected: "<p>table  cellpadding=&quot;0&quot; cellspa...</p>"
+  end
+
   # Preserve this code as an example of truncating a real-world (PII-less) example
   # let(:real_world_doc) { File.read('spec/fixtures/real_world_example.html') }
   # it "works with a real-life example" do
