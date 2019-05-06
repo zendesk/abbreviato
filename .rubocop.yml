@@ -57,10 +57,10 @@ Style/StringLiteralsInInterpolation:
 Style/NumericLiterals:
   Enabled: false
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Enabled: false
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   Enabled: false
 
 Layout/AlignParameters:
@@ -85,9 +85,6 @@ Style/DoubleNegation:
   Enabled: false
 
 Style/Documentation:
-  Enabled: false
-
-Metrics/CyclomaticComplexity:
   Enabled: false
 
 Layout/MultilineMethodCallIndentation:

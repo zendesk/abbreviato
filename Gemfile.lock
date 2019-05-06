@@ -3,7 +3,7 @@ PATH
   specs:
     abbreviato (0.8.8)
       htmlentities (~> 4.3.4)
-      nokogiri (>= 1.10.3)
+      nokogiri (~> 1.10.3)
 
 GEM
   remote: https://rubygems.org/
