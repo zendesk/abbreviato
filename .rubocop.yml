@@ -170,7 +170,7 @@ Lint/HandleExceptions:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.4
   Include:
     - 'Gemfile'
     - 'Rakefile'
