@@ -3,7 +3,7 @@ PATH
   specs:
     abbreviato (0.8.9)
       htmlentities (~> 4.3.4)
-      nokogiri (>= 1.8.5)
+      nokogiri (>= 1.10.4)
 
 GEM
   remote: https://rubygems.org/
@@ -32,7 +32,7 @@ GEM
     jaro_winkler (1.5.3)
     memory_profiler (0.9.12)
     mini_portile2 (2.4.0)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     parallel (1.17.0)
     parser (2.6.3.0)
@@ -92,4 +92,4 @@ DEPENDENCIES
   wwtd
 
 BUNDLED WITH
-   2.0.1
+   2.0.2
