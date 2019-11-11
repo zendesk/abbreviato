@@ -15,7 +15,7 @@ GEM
     benchmark-perf (0.4.0)
     benchmark-trend (0.2.0)
     brakecheck (0.2.2)
-    brakeman (4.6.1)
+    brakeman (4.7.1)
     bump (0.8.0)
     bundler-audit (0.6.1)
       bundler (>= 1.2.0, < 3)
