@@ -57,13 +57,13 @@ Style/StringLiteralsInInterpolation:
 Style/NumericLiterals:
   Enabled: false
 
-Layout/IndentFirstArgument:
+Layout/FirstArgumentIndentation:
   Enabled: false
 
-Layout/IndentFirstHashElement:
+Layout/FirstHashElementIndentation:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Layout/MultilineOperationIndentation:
@@ -166,7 +166,7 @@ Style/IfInsideElse:
   Enabled: false
 
 # nil is often a perfectly fine exception result
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Enabled: false
 
 AllCops:
