@@ -40,7 +40,7 @@ GEM
       ast (~> 2.4.0)
     path_expander (1.1.0)
     rainbow (3.0.0)
-    rake (11.3.0)
+    rake (13.0.1)
     rexml (3.2.4)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -89,7 +89,7 @@ DEPENDENCIES
   bundler-audit
   byebug
   flay
-  rake (~> 11.3.0)
+  rake (~> 13.0.1)
   rspec (~> 3.5.0)
   rspec-benchmark
   rubocop

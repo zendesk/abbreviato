@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "bundler-audit"
   s.add_development_dependency "byebug"
   s.add_development_dependency "flay"
-  s.add_development_dependency "rake", '~> 11.3.0'
+  s.add_development_dependency "rake", '~> 13.0.1'
   s.add_development_dependency "rspec", '~> 3.5.0'
   s.add_development_dependency "rspec-benchmark"
   s.add_development_dependency "rubocop"
