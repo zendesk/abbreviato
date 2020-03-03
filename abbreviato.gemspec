@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.summary = "A tool for efficiently truncating HTML strings to a specific bytesize"
 
   s.add_dependency "htmlentities", "~> 4.3.4"
-  s.add_dependency "nokogiri", ">= 1.10.7"
+  s.add_dependency "nokogiri", ">= 1.10.8"
 
   s.add_development_dependency "awesome_print"
   s.add_development_dependency "benchmark-memory"
