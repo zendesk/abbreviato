@@ -37,6 +37,13 @@ Abbreviato was designed with performance in mind. Its main motivation was that e
 bundle exec rake
 ```
 
+## Running a single test
+
+```ruby
+rspec spec/abbreviato/abbreviato_spec.rb
+rspec spec/abbreviato/abbreviato_spec.rb:357
+```
+
 ## Running all checks
 
 ```ruby
