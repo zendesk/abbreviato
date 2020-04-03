@@ -351,6 +351,22 @@ describe "Abbreviato" do
       expected: "<p>table  cellpadding=&quot;0&quot; cellspa...</p>"
   end
 
+  describe "mid-row truncation" do
+    describe "when truncate_incomplete_row option is provided" do
+      it_truncates "drops the last <tr> in the document",
+        with: { max_length: 120, truncate_incomplete_row: true },
+        source: '<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccccccccccccccccc</td><td>dddddddddddddddddddddd</td></tr></table>',
+        expected: "<table><tr>\n<td>aaaaaaaaaaaaaaaaaaaaaa</td>\n<td>bbbbbbbbbbbbbbbbbbbbbb</td>\n</tr></table>"
+    end
+
+    describe "when truncate_incomplete_row option is absent" do
+      it_truncates "does not drop the last <tr> in the document",
+        with: { max_length: 120, truncate_incomplete_row: false },
+        source: '<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccccccccccccccccc</td><td>dddddddddddddddddddddd</td></tr></table>',
+        expected: "<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccc&hellip;</td></tr></table>"
+    end
+  end
+
   # Preserve this code as an example of truncating a real-world (PII-less) example
   # let(:real_world_doc) { File.read('spec/fixtures/real_world_example.html') }
   # it "works with a real-life example" do
