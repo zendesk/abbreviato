@@ -352,17 +352,34 @@ describe "Abbreviato" do
   end
 
   describe "mid-row truncation" do
+    describe "and a well-formatted table is absent" do
+      it_truncates "does not attempt table truncation",
+        with: { max_length: 120, truncate_incomplete_row: true },
+        source: "<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci ex ea commodo consequat.</div>",
+        expected: "<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipi&hellip;</div>"
+
+      it_truncates "does not attempt table truncation",
+        with: { max_length: 120, truncate_incomplete_row: true },
+        source: "<table>Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci ex ea commodo consequat.</table>",
+        expected: "<table>Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur a&hellip;</table>"
+
+      it_truncates "does not attempt table truncation",
+        with: { max_length: 120, truncate_incomplete_row: true },
+        source: "<table><tr>Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci ex ea commodo consequat.</tr></table>",
+        expected: "<table><tr>Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, cons&hellip;</tr></table>"
+    end
+
     describe "when truncate_incomplete_row option is provided" do
       it_truncates "drops the last <tr> in the document",
         with: { max_length: 120, truncate_incomplete_row: true },
-        source: '<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccccccccccccccccc</td><td>dddddddddddddddddddddd</td></tr></table>',
+        source: "<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccccccccccccccccc</td><td>dddddddddddddddddddddd</td></tr></table>",
         expected: "<table><tr>\n<td>aaaaaaaaaaaaaaaaaaaaaa</td>\n<td>bbbbbbbbbbbbbbbbbbbbbb</td>\n</tr></table>"
     end
 
     describe "when truncate_incomplete_row option is absent" do
       it_truncates "does not drop the last <tr> in the document",
         with: { max_length: 120, truncate_incomplete_row: false },
-        source: '<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccccccccccccccccc</td><td>dddddddddddddddddddddd</td></tr></table>',
+        source: "<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccccccccccccccccc</td><td>dddddddddddddddddddddd</td></tr></table>",
         expected: "<table><tr><td>aaaaaaaaaaaaaaaaaaaaaa</td><td>bbbbbbbbbbbbbbbbbbbbbb</td></tr><tr><td>cccccccc&hellip;</td></tr></table>"
     end
   end
