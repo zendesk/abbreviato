@@ -22,16 +22,28 @@ module Abbreviato
   # @return [[String] the truncated string, [boolean] whether the string was truncated]
   def self.truncate(source = '', user_options = {})
     return [nil, false] if source.nil?
+
     truncated_sax_document = TruncatedSaxDocument.new(DEFAULT_OPTIONS.merge(user_options))
     parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document)
     parser.parse(source) { |context| context.replace_entities = false }
 
     if truncated_sax_document.truncated && user_options[:truncate_incomplete_row]
+      parsed_results = [truncated_sax_document.truncated_string.strip, truncated_sax_document.truncated]
+
       html_fragment = Nokogiri::HTML.fragment(truncated_sax_document.truncated_string.strip)
+      return parsed_results if html_fragment.nil?
+
       last_table_in_doc = html_fragment.xpath('.//table').last
-      cols_in_first_row = last_table_in_doc.xpath('.//tr').first.xpath('.//td').length
-      last_table_in_doc.xpath('.//tr').reverse.each do |element|
-        element.remove if element.xpath('.//td').length != cols_in_first_row
+      return parsed_results unless last_table_in_doc
+
+      first_row = last_table_in_doc.xpath('.//tr').first
+      return parsed_results unless first_row
+
+      cols_in_first_row = first_row.xpath('.//td').length
+      return parsed_results unless cols_in_first_row > 0
+
+      last_table_in_doc.xpath('.//tr').each do |row|
+        row.remove if row.xpath('.//td').length != cols_in_first_row
       end
 
       return [html_fragment.to_html, truncated_sax_document.truncated]
