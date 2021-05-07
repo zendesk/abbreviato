@@ -15,8 +15,7 @@ GEM
       memory_profiler (~> 0.9)
     benchmark-perf (0.5.0)
     benchmark-trend (0.3.0)
-    brakecheck (0.2.2)
-    brakeman (4.8.1)
+    brakeman (5.0.1)
     bump (0.8.0)
     bundler-audit (0.6.1)
       bundler (>= 1.2.0, < 3)
@@ -93,7 +92,6 @@ DEPENDENCIES
   abbreviato!
   awesome_print
   benchmark-memory
-  brakecheck
   brakeman
   bump
   bundler-audit

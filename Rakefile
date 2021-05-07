@@ -11,14 +11,6 @@ require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
 
 if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
-  def run_command(command)
-    result = `#{command}`
-    result.force_encoding('binary')
-    raise "Command #{command} failed: #{result}" unless $?.success?
-
-    result
-  end
-
   require 'bundler/audit/task'
   Bundler::Audit::Task.new
 
@@ -37,7 +29,7 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
 
   desc 'Analyze security vulnerabilities with brakeman'
   task :brakeman do
-    run_command 'brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore'
+    `brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore`
   end
 end
 
