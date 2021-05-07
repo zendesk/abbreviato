@@ -23,7 +23,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @tail = options[:tail] || ''
     @fragment_mode = options[:fragment]
 
-    @truncated_string = ""
+    @truncated_string = ''
     @closing_tags = []
     @estimated_length = 0
     @ignored_levels = 0
@@ -69,13 +69,13 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
     encoded_string = @html_coder.encode(decoded_string, :named)
     string_to_append = if encoded_string.bytesize > remaining_length
-      # This is the line which prevents HTML entities getting truncated - treat them as a single char
-      str = truncate_string(decoded_string)
-      str << tail if remaining_length - str.bytesize >= tail.bytesize
-      str
-    else
-      encoded_string
-    end
+                         # This is the line which prevents HTML entities getting truncated - treat them as a single char
+                         str = truncate_string(decoded_string)
+                         str << tail if remaining_length - str.bytesize >= tail.bytesize
+                         str
+                       else
+                         encoded_string
+                       end
     append_to_truncated_string(string_to_append)
   end
 
