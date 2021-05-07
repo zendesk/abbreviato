@@ -35,20 +35,6 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new
 
-  task :brakecheck do
-    puts 'Running brakecheck...'
-    %w[brakecheck brakeman bundler-audit flay rubocop].each do |gem_name|
-      result = `brakecheck #{gem_name}`
-      result.force_encoding('binary')
-      if $CHILD_STATUS.success?
-        puts "✔ #{gem_name}"
-      else
-        raise "✘ #{gem_name}'s brakecheck failed: #{result}"
-      end
-    end
-    true
-  end
-
   task :brakeman do
     run_command 'brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore'
   end

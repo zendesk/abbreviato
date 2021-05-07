@@ -3,7 +3,6 @@
 require 'spec_helper'
 require 'byebug'
 require 'awesome_print'
-require 'brakecheck'
 
 describe 'Abbreviato' do
   NBSP = Nokogiri::HTML('&nbsp;').text
@@ -394,12 +393,4 @@ describe 'Abbreviato' do
   #   truncated = Abbreviato.truncate(real_world_doc,  max_length: 65535)
   #   File.open('spec/fixtures/real_world_example_truncated.html', 'w') { |file| file.write(truncated) }
   # end
-
-  describe 'Brakecheck' do
-    %w[brakecheck brakeman bundler-audit rubocop flay].each do |gem_name|
-      it "#{gem_name} is up to date" do
-        expect(Brakecheck.compare(gem_name)).to include(true)
-      end
-    end
-  end
 end

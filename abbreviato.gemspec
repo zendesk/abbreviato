@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'benchmark-memory'
-  s.add_development_dependency 'brakecheck'
   s.add_development_dependency 'brakeman'
   s.add_development_dependency 'bump'
   s.add_development_dependency 'bundler-audit'

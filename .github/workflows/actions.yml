@@ -39,7 +39,6 @@ jobs:
         task:
           - bundle:audit
           - brakeman
-          - brakecheck
           - flay
           - rubocop
     steps:
@@ -53,7 +52,7 @@ jobs:
         set -eu -o pipefail
 
         bundle install
-        bundle update bundler-audit brakeman brakecheck flay rubocop
+        bundle update bundler-audit brakeman flay rubocop
 
     - name: Run ${{ matrix.task }} on Ruby ${{ matrix.ruby }}
       run: bundle exec rake ${{ matrix.task }}
