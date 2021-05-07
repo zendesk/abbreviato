@@ -18,3 +18,51 @@ AllCops:
     - 'spec/**/*.rb'
   Exclude:
     - "**/vendor/**/*"
+
+# Missing top-level module documentation comment.
+Style/Documentation:
+  Enabled: false
+
+# Assignment Branch Condition size for truncate is too high. (http://c2.com/cgi/wiki?AbcMetric, https://en.wikipedia.org/wiki/ABC_Software_Metric)
+Metrics/AbcSize:
+  Enabled: false
+
+# Method has too many lines. [10] (https://rubystyle.guide#short-methods)
+Metrics/MethodLength:
+  Enabled: false
+
+# Block has too many lines. [25]
+Metrics/BlockLength:
+  Enabled: false
+
+# Class has too many lines. [100]
+Metrics/ClassLength:
+  Enabled: false
+
+# Cyclomatic complexity for truncate is too high. [7]
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+# Perceived complexity for truncate is too high. [8]
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# Do not define constants this way within a block. (https://rubystyle.guide#no-constant-definition-in-block)
+Lint/ConstantDefinitionInBlock:
+    Enabled: false
+
+# Line is too long. [120] (https://rubystyle.guide#max-line-length)
+Layout/LineLength:
+  Enabled: false
+
+# Example has too many expectations [1]. (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/MultipleExpectations)
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# Example has too many lines. [5] (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/ExampleLength)
+RSpec/ExampleLength:
+  Enabled: false
+
+# Empty example group detected. (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/EmptyExampleGroup)
+RSpec/EmptyExampleGroup:
+    Enabled: false
