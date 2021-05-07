@@ -3,7 +3,7 @@ on: [push]
 jobs:
   specs:
     name: Specs
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
     strategy:
@@ -16,8 +16,8 @@ jobs:
         task:
           - spec
     steps:
-    - uses: zendesk/checkout@latest
-    - uses: zendesk/setup-ruby@latest
+    - uses: zendesk/checkout@v2.3.4
+    - uses: zendesk/setup-ruby@v1.70.1
       with:
         ruby-version: ${{ matrix.ruby }}
 
@@ -30,21 +30,21 @@ jobs:
       run: bundle exec rake ${{ matrix.task }}
   linters:
     name: Linters
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         ruby:
           - 2.6.6 # Default
         task:
-          - bundle:audit
+          - bundle-audit
           - brakeman
           - brakecheck
           - flay
           - rubocop
     steps:
-    - uses: zendesk/checkout@latest
-    - uses: zendesk/setup-ruby@latest
+    - uses: zendesk/checkout@v2.3.4
+    - uses: zendesk/setup-ruby@v1.70.1
       with:
         ruby-version: ${{ matrix.ruby }}
 
@@ -53,7 +53,7 @@ jobs:
         set -eu -o pipefail
 
         bundle install
-        bundle update bundle:audit brakeman brakecheck flay rubocop
+        bundle update bundler-audit brakeman brakecheck flay rubocop
 
     - name: Run ${{ matrix.task }} on Ruby ${{ matrix.ruby }}
       run: bundle exec rake ${{ matrix.task }}
