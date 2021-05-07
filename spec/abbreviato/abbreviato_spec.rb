@@ -7,8 +7,6 @@ require 'awesome_print'
 describe 'Abbreviato' do
   before { stub(NBSP: Nokogiri::HTML('&nbsp;').text) }
 
-  after { unstub(NBSP) }
-
   describe 'normal strings' do
     it 'handles nil' do
       result, truncated = Abbreviato.truncate(nil)
