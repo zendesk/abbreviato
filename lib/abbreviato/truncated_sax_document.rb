@@ -9,10 +9,10 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   VOID_TAGS = %w[area base br col command hr img input keygen link meta param source wbr].freeze
 
   attr_reader :truncated_string,
-    :max_length,
-    :tail,
-    :ignored_levels,
-    :truncated
+              :max_length,
+              :tail,
+              :ignored_levels,
+              :truncated
 
   def initialize(options)
     @html_coder = HTMLEntities.new

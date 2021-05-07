@@ -1,5 +1,20 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
+AllCops:
+  NewCops: enable
+  ExtraDetails: true
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  TargetRubyVersion: 2.6
+  Include:
+    - '*.gemspec'
+    - 'Gemfile'
+    - 'lib/**/*.rb'
+    - 'Rakefile'
+    - 'spec/**/*.rb'
+  Exclude:
+    - "**/vendor/**/*"
+
 Style/BlockDelimiters:
   Enabled: false
 
@@ -168,13 +183,3 @@ Style/IfInsideElse:
 # nil is often a perfectly fine exception result
 Lint/SuppressedException:
   Enabled: false
-
-AllCops:
-  TargetRubyVersion: 2.4
-  Include:
-    - 'Gemfile'
-    - 'Rakefile'
-  Exclude:
-    - 'gemfiles/**/*'
-    - 'vendor/**/*' # Gems in Travis.
-    - 'log/**/*'

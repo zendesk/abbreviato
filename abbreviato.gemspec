@@ -8,7 +8,6 @@ Gem::Specification.new do |s|
   s.version = Abbreviato::VERSION
 
   s.authors = ["Jorge Manrubia"]
-  s.date = "2013-09-10"
   s.description = "Truncate HTML to a specific bytesize, while keeping valid markup"
   s.email = "jorge.manrubia@gmail.com"
   s.extra_rdoc_files = [
