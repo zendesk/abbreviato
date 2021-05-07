@@ -14,7 +14,7 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
   def run_command(command)
     result = `#{command}`
     result.force_encoding('binary')
-    raise "Command #{command} failed: #{result}" unless $CHILD_STATUS.success?
+    raise "Command #{command} failed: #{result}" unless $?.success?
 
     result
   end
