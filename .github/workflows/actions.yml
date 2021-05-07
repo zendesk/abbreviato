@@ -37,7 +37,7 @@ jobs:
         ruby:
           - 2.6.6 # Default
         task:
-          - bundle-audit
+          - bundle:audit
           - brakeman
           - brakecheck
           - flay

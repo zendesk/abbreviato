@@ -14,7 +14,7 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
   def run_command(command)
     result = `#{command}`
     result.force_encoding('binary')
-    raise "Command #{command} failed: #{result}" unless $?.success?
+    raise "Command #{command} failed: #{result}" unless $CHILD_STATUS.success?
 
     result
   end
@@ -40,7 +40,7 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
     %w[brakecheck brakeman bundler-audit flay rubocop].each do |gem_name|
       result = `brakecheck #{gem_name}`
       result.force_encoding('binary')
-      if $?.success?
+      if $CHILD_STATUS.success?
         puts "✔ #{gem_name}"
       else
         raise "✘ #{gem_name}'s brakecheck failed: #{result}"
