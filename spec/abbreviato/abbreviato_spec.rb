@@ -5,7 +5,8 @@ require 'byebug'
 require 'awesome_print'
 
 describe 'Abbreviato' do
-  NBSP = Nokogiri::HTML('&nbsp;').text
+  before { stub(NBSP: Nokogiri::HTML('&nbsp;').text) }
+  after { unstub(NBSP)}
 
   describe 'normal strings' do
     it 'handles nil' do
