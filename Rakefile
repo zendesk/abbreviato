@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'wwtd/tasks'
 require 'bundler/gem_tasks'
 require 'bump/tasks'
 
@@ -33,4 +32,4 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
   end
 end
 
-task default: :wwtd
+task default: :spec

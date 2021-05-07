@@ -83,7 +83,6 @@ GEM
     sexp_processor (4.13.0)
     thor (0.20.3)
     unicode-display_width (2.0.0)
-    wwtd (1.4.1)
 
 PLATFORMS
   ruby
@@ -103,7 +102,6 @@ DEPENDENCIES
   rubocop
   rubocop-rake
   rubocop-rspec
-  wwtd
 
 BUNDLED WITH
    2.2.17

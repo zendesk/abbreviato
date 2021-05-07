@@ -47,7 +47,7 @@ rspec spec/abbreviato/abbreviato_spec.rb:357
 ## Running all checks
 
 ```ruby
-bundle exec wwtd
+bundle exec rake spec
 ```
 
 ## Contribute
