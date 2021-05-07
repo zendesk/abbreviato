@@ -35,6 +35,7 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new
 
+  desc 'Analyze security vulnerabilities with brakeman'
   task :brakeman do
     run_command 'brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore'
   end
