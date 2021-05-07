@@ -16,7 +16,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
               :ignored_levels,
               :truncated
 
-  def initialize(options)
+  # FIXME: Call super to initialize state of the parent class.
+  def initialize(options) # rubocop:disable Lint/MissingSuper
     @html_coder = HTMLEntities.new
 
     @max_length = options[:max_length]
@@ -117,7 +118,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     # Note that any remaining end tags get added automatically (in `end_document`) as the document is closed
     return if max_length_reached? || ignorable_tag?(name)
 
-    unless single_tag_element?(name)
+    # FIXME: Style/GuardClause: Use a guard clause (return if single_tag_element?(name)) instead of wrapping the code inside a conditional expression. (https://rubystyle.guide#no-nested-conditionals)
+    unless single_tag_element?(name) # rubocop:disable Style/GuardClause
       @closing_tags.pop
       # Don't count the length when closing a tag - it was accommodated when
       # the tag was opened
