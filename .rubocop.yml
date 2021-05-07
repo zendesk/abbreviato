@@ -1,5 +1,9 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
 AllCops:
   NewCops: enable
   ExtraDetails: true
