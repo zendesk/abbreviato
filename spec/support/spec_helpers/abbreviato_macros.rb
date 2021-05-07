@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AbbreviatoMacros
   def test_truncation(example_description, should_truncate, options)
     it "should truncate #{example_description}" do

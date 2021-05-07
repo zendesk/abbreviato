@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Abbreviato
   DEFAULT_OPTIONS = {
       max_length: 30,
@@ -40,7 +42,7 @@ module Abbreviato
       return parsed_results unless first_row
 
       cols_in_first_row = first_row.xpath('.//td').length
-      return parsed_results unless cols_in_first_row > 0
+      return parsed_results unless cols_in_first_row.positive?
 
       last_table_in_doc.xpath('.//tr').each do |row|
         row.remove if row.xpath('.//td').length != cols_in_first_row

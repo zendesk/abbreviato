@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 require 'htmlentities'
 
@@ -174,7 +176,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @truncated = true
     truncate_length = remaining_length - tail.bytesize
     truncated_string = ''
-    decoded_string.split('').each do |char|
+    decoded_string.chars.each do |char|
       encoded_char = @html_coder.encode(char)
       break if encoded_char.bytesize > truncate_length
 
@@ -206,6 +208,6 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def ignore_mode?
-    @ignored_levels > 0
+    @ignored_levels.positive?
   end
 end
