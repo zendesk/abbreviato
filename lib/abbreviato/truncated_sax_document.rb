@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require 'nokogiri'
 require 'htmlentities'
 
@@ -9,19 +11,20 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   VOID_TAGS = %w[area base br col command hr img input keygen link meta param source wbr].freeze
 
   attr_reader :truncated_string,
-    :max_length,
-    :tail,
-    :ignored_levels,
-    :truncated
+              :max_length,
+              :tail,
+              :ignored_levels,
+              :truncated
 
-  def initialize(options)
+  # FIXME: Call super to initialize state of the parent class.
+  def initialize(options) # rubocop:disable Lint/MissingSuper
     @html_coder = HTMLEntities.new
 
     @max_length = options[:max_length]
     @tail = options[:tail] || ''
     @fragment_mode = options[:fragment]
 
-    @truncated_string = ""
+    @truncated_string = ''
     @closing_tags = []
     @estimated_length = 0
     @ignored_levels = 0
@@ -67,13 +70,13 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
     encoded_string = @html_coder.encode(decoded_string, :named)
     string_to_append = if encoded_string.bytesize > remaining_length
-      # This is the line which prevents HTML entities getting truncated - treat them as a single char
-      str = truncate_string(decoded_string)
-      str << tail if remaining_length - str.bytesize >= tail.bytesize
-      str
-    else
-      encoded_string
-    end
+                         # This is the line which prevents HTML entities getting truncated - treat them as a single char
+                         str = truncate_string(decoded_string)
+                         str << tail if remaining_length - str.bytesize >= tail.bytesize
+                         str
+                       else
+                         encoded_string
+                       end
     append_to_truncated_string(string_to_append)
   end
 
@@ -115,7 +118,8 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     # Note that any remaining end tags get added automatically (in `end_document`) as the document is closed
     return if max_length_reached? || ignorable_tag?(name)
 
-    unless single_tag_element?(name)
+    # FIXME: Style/GuardClause: Use a guard clause (return if single_tag_element?(name)) instead of wrapping the code inside a conditional expression. (https://rubystyle.guide#no-nested-conditionals)
+    unless single_tag_element?(name) # rubocop:disable Style/GuardClause
       @closing_tags.pop
       # Don't count the length when closing a tag - it was accommodated when
       # the tag was opened
@@ -174,7 +178,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     @truncated = true
     truncate_length = remaining_length - tail.bytesize
     truncated_string = ''
-    decoded_string.split('').each do |char|
+    decoded_string.chars.each do |char|
       encoded_char = @html_coder.encode(char)
       break if encoded_char.bytesize > truncate_length
 
@@ -206,6 +210,6 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   end
 
   def ignore_mode?
-    @ignored_levels > 0
+    @ignored_levels.positive?
   end
 end

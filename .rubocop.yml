@@ -1,180 +1,68 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
-Style/BlockDelimiters:
-  Enabled: false
+require:
+  - rubocop-rake
+  - rubocop-rspec
 
-ShadowingOuterLocalVariable:
-  Enabled: false
+AllCops:
+  NewCops: enable
+  ExtraDetails: true
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  TargetRubyVersion: 2.6
+  Include:
+    - '*.gemspec'
+    - 'Gemfile'
+    - 'lib/**/*.rb'
+    - 'Rakefile'
+    - 'spec/**/*.rb'
+  Exclude:
+    - "**/vendor/**/*"
 
-LineLength:
-  Enabled: false
-
-ClassLength:
-  Enabled: false
-
-Layout/CommentIndentation:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Style/StringLiterals:
-  Enabled: false
-
-HashSyntax:
-   EnforcedStyle: ruby19
-
-Style/SignalException:
-  Enabled: false
-
-Layout/SpaceInsideHashLiteralBraces:
-  Enabled: false
-
-Lint/AmbiguousOperator:
-  Enabled: false
-
-Style/Lambda:
-  Enabled: false
-
-Style/SpecialGlobalVars:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/AbcSize:
-  Enabled: false
-
-Style/WordArray:
-  Enabled: false
-
-Layout/EndAlignment:
-  EnforcedStyleAlignWith: variable
-
-Style/StringLiteralsInInterpolation:
-  Enabled: false
-
-Style/NumericLiterals:
-  Enabled: false
-
-Layout/FirstArgumentIndentation:
-  Enabled: false
-
-Layout/FirstHashElementIndentation:
-  Enabled: false
-
-Layout/ParameterAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/MultilineOperationIndentation:
-  Enabled: false
-
-Metrics/ModuleLength:
-  Enabled: false
-
-Metrics/BlockLength:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
-  Enabled: false
-
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Style/DoubleNegation:
-  Enabled: false
-
+# Missing top-level module documentation comment.
 Style/Documentation:
   Enabled: false
 
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-Layout/ExtraSpacing:
+# Assignment Branch Condition size for truncate is too high. (http://c2.com/cgi/wiki?AbcMetric, https://en.wikipedia.org/wiki/ABC_Software_Metric)
+Metrics/AbcSize:
   Enabled: false
 
-Layout/DotPosition:
-  EnforcedStyle: trailing
-
-Style/SingleLineBlockParams:
+# Method has too many lines. [10] (https://rubystyle.guide#short-methods)
+Metrics/MethodLength:
   Enabled: false
 
-Style/PerlBackrefs:
+# Block has too many lines. [25]
+Metrics/BlockLength:
   Enabled: false
 
-Style/IfUnlessModifier:
+# Class has too many lines. [100]
+Metrics/ClassLength:
   Enabled: false
 
-# alias / alias_method are both fine
-Style/Alias:
+# Cyclomatic complexity for truncate is too high. [7]
+Metrics/CyclomaticComplexity:
   Enabled: false
 
-# nice for .with{} mock stubs
-Style/Semicolon:
+# Perceived complexity for truncate is too high. [8]
+Metrics/PerceivedComplexity:
   Enabled: false
 
-# for simple cases more readable
-Style/GuardClause:
+# Do not define constants this way within a block. (https://rubystyle.guide#no-constant-definition-in-block)
+Lint/ConstantDefinitionInBlock:
+    Enabled: false
+
+# Line is too long. [120] (https://rubystyle.guide#max-line-length)
+Layout/LineLength:
   Enabled: false
 
-# sometimes the most readable way of doing things
-Style/ClassVars:
+# Example has too many expectations [1]. (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/MultipleExpectations)
+RSpec/MultipleExpectations:
   Enabled: false
 
-# for single `/` more readable
-Style/RegexpLiteral:
+# Example has too many lines. [5] (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/ExampleLength)
+RSpec/ExampleLength:
   Enabled: false
 
-# %w[] shows that it will return an array
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%i': '[]'
-    '%w': '[]'
-    '%W': '[]'
-
-Lint/AssignmentInCondition:
-  Enabled: false
-
-Lint/AmbiguousRegexpLiteral:
-  Enabled: false
-
-Metrics/ParameterLists:
-  Enabled: false
-
-# Looks correct / intuitive
-Lint/ParenthesesAsGroupedExpression:
-  Enabled: false
-
-# We use it a few times in tests and nobody does random nested method definitions
-Lint/NestedMethodDefinition:
-  Enabled: false
-
-Style/FormatString:
-  Enabled: false
-
-Metrics/BlockNesting:
-  Enabled: false
-
-Layout/IndentationWidth:
-  Width: 2
-
-Lint/NonLocalExitFromIterator:
-  Enabled: false
-
-# Often makes logical sense to not combine if with elsif
-Style/IfInsideElse:
-  Enabled: false
-
-# nil is often a perfectly fine exception result
-Lint/SuppressedException:
-  Enabled: false
-
-AllCops:
-  TargetRubyVersion: 2.4
-  Include:
-    - 'Gemfile'
-    - 'Rakefile'
-  Exclude:
-    - 'gemfiles/**/*'
-    - 'vendor/**/*' # Gems in Travis.
-    - 'log/**/*'
+# Empty example group detected. (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/EmptyExampleGroup)
+RSpec/EmptyExampleGroup:
+    Enabled: false

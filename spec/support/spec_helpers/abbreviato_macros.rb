@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module AbbreviatoMacros
   def test_truncation(example_description, should_truncate, options)
-    it "should truncate #{example_description}" do
+    it "truncates #{example_description}" do
       expected_options = Abbreviato::DEFAULT_OPTIONS.merge(options[:with])
       result, truncated = Abbreviato.truncate(options[:source], expected_options)
       expect(result).to eq options[:expected]
