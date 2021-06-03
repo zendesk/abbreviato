@@ -2,7 +2,7 @@ name: Continuous Integration
 on: [push]
 jobs:
   specs:
-    name: Specs
+    name: specs
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
@@ -28,7 +28,7 @@ jobs:
     - name: Run ${{ matrix.task }} on Ruby ${{ matrix.ruby }}
       run: bundle exec rake ${{ matrix.task }}
   linters:
-    name: Linters
+    name: linters
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -36,7 +36,6 @@ jobs:
         ruby:
           - 2.6.6 # Default
         task:
-          - bundle:audit
           - brakeman
           - flay
           - rubocop
@@ -49,9 +48,8 @@ jobs:
     - name: Gem install
       run: |
         set -eu -o pipefail
-
         bundle install
-        bundle update bundler-audit brakeman flay rubocop
+        bundle update brakeman flay rubocop
 
     - name: Run ${{ matrix.task }} on Ruby ${{ matrix.ruby }}
       run: bundle exec rake ${{ matrix.task }}
