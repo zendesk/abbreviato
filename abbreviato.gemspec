@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = '2.0.2'
   s.summary = 'A tool for efficiently truncating HTML strings to a specific bytesize'
 
-  s.required_ruby_version = '>= 2.6.6'
+  s.required_ruby_version = '>= 2.7'
 
   s.add_dependency 'htmlentities', '~> 4.3.4'
   s.add_dependency 'nokogiri', '1.10.10'
