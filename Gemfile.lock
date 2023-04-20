@@ -1,9 +1,17 @@
+GIT
+  remote: https://github.com/sparklemotion/nokogiri.git
+  revision: e8d2f4a829c50e6ad4ccd1625cd094e3a24acf36
+  ref: e8d2f4a829c50e6ad4ccd1625cd094e3a24acf36
+  specs:
+    nokogiri (1.14.3)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+
 PATH
   remote: .
   specs:
     abbreviato (1.0.0)
       htmlentities (~> 4.3.4)
-      nokogiri (>= 1.14)
 
 GEM
   remote: https://rubygems.org/
@@ -31,9 +39,6 @@ GEM
     htmlentities (4.3.4)
     memory_profiler (0.9.14)
     mini_portile2 (2.8.1)
-    nokogiri (1.14.3)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
@@ -96,6 +101,7 @@ DEPENDENCIES
   bundler-audit
   byebug
   flay
+  nokogiri!
   rake
   rspec
   rspec-benchmark
