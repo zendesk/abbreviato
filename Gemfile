@@ -2,6 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem "nokogiri", github: "sparklemotion/nokogiri", ref: "c9b9201c142da949634bc7f01988d4b77d3dbb2a"
+gem "nokogiri", github: "sparklemotion/nokogiri", ref: "b8802bfa0fab48e1c47654346e9a74327cfe880b"
 
 gemspec
