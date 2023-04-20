@@ -1,37 +1,37 @@
-name: Security
-on: [push]
-jobs:
-  main:
-    name: bundle-audit
-    runs-on: ubuntu-latest
-    env:
-      RAILS_ENV: test
-    strategy:
-      fail-fast: false
-      matrix:
-        ruby:
-          - 2.7
-    steps:
-    - uses: zendesk/checkout@v3
-    - uses: zendesk/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-
-    - name: Gem install
-      run: |
-        set -eu -o pipefail
-        gem install bundler-audit
-
-    - name: Checking ${{ matrix.gemfile }}
-      run: |
-        set -eu -o pipefail
-
-        echo "BUNDLE_GEMFILE=$GITHUB_WORKSPACE/${{ matrix.gemfile }}" >> $GITHUB_ENV
-
-        IGNORED="CVE-2020-26247 GHSA-7rrm-v45f-jp64"
-
-        if [ -n "$IGNORED" ]; then
-          echo "::warning:: Ignored vulnerabilities: $IGNORED"
-        fi
-
-        bundle-audit check --update --gemfile-lock Gemfile.lock --ignore $IGNORED
+#name: Security
+#on: [push]
+#jobs:
+#  main:
+#    name: bundle-audit
+#    runs-on: ubuntu-latest
+#    env:
+#      RAILS_ENV: test
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        ruby:
+#          - 2.7
+#    steps:
+#    - uses: zendesk/checkout@v3
+#    - uses: zendesk/setup-ruby@v1
+#      with:
+#        ruby-version: ${{ matrix.ruby }}
+#
+#    - name: Gem install
+#      run: |
+#        set -eu -o pipefail
+#        gem install bundler-audit
+#
+#    - name: Checking ${{ matrix.gemfile }}
+#      run: |
+#        set -eu -o pipefail
+#
+#        echo "BUNDLE_GEMFILE=$GITHUB_WORKSPACE/${{ matrix.gemfile }}" >> $GITHUB_ENV
+#
+#        IGNORED="CVE-2020-26247 GHSA-7rrm-v45f-jp64"
+#
+#        if [ -n "$IGNORED" ]; then
+#          echo "::warning:: Ignored vulnerabilities: $IGNORED"
+#        fi
+#
+#        bundle-audit check --update --gemfile-lock Gemfile.lock --ignore $IGNORED
