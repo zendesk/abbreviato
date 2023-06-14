@@ -26,19 +26,5 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.7'
 
   s.add_dependency 'htmlentities', '~> 4.3.4'
-  s.add_dependency 'nokogiri', '1.10.10'
-
-  s.add_development_dependency 'awesome_print'
-  s.add_development_dependency 'benchmark-memory'
-  s.add_development_dependency 'brakeman'
-  s.add_development_dependency 'bump'
-  s.add_development_dependency 'bundler-audit'
-  s.add_development_dependency 'byebug'
-  s.add_development_dependency 'flay'
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rspec-benchmark'
-  s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'rubocop-rake'
-  s.add_development_dependency 'rubocop-rspec'
+  s.add_dependency 'nokogiri', '~> 1.15.0'
 end
