@@ -30,6 +30,9 @@ if %w[development test].include?(ENV['RAILS_ENV'] ||= 'development')
   task :brakeman do
     `brakeman --exit-on-warn --exit-on-err --format plain --ensure-latest --table-width 999 --force-scan lib --ignore-config .brakeman.ignore`
   end
+
+  desc 'Run all linters'
+  task lint: %w[rubocop flay brakeman]
 end
 
 task default: :spec

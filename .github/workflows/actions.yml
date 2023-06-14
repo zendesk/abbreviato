@@ -20,23 +20,15 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-
     - name: Run specs on Ruby ${{ matrix.ruby }}
       run: bundle exec rake spec
-  linters:
-    name: linters
+
+  linter:
+    name: linter
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        task:
-          - brakeman
-          - flay
-          - rubocop
     steps:
     - uses: zendesk/checkout@v3
     - uses: zendesk/setup-ruby@v1
       with:
         bundler-cache: true
-    - name: Run ${{ matrix.task }}
-      run: bundle exec rake ${{ matrix.task }}
+    - run: bundle exec rake lint
