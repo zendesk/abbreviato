@@ -241,10 +241,6 @@ describe 'Abbreviato' do
                  with: { max_length: 10 },
                  source: '<span><p><br/><br/><br/><p><br/></span><h1></h2>.</h3><h4><br/>',
                  expected: '<h1>.</h1>'
-    it_does_not_truncate 'junk, including various html chars',
-                         with: { max_length: 10 },
-                         source: '<<< /  > < 0)(*&^*&^%${#}><? < /',
-                         expected: ''
     it_truncates 'outer tags fit exactly',
                  with: { max_length: 13 },
                  source: '<span><p></p></span>',
@@ -268,6 +264,25 @@ describe 'Abbreviato' do
     it_truncates 'outer tags which fit perfectly within inner content',
                  with: { max_length: 7 },
                  source: '<p>hello</p>',
+                 expected: '<p></p>'
+  end
+
+  describe 'edge-cases: junk' do
+    it_truncates 'junk, including various html chars',
+                 with: { max_length: 10 },
+                 source: '<<< /  > < 0)(*&^*&^%${#}><? < /',
+                 expected: '&lt;&lt;'
+    it_does_not_truncate 'opening bracket only',
+                         with: { max_length: 5 },
+                         source: '<',
+                         expected: '&lt;'
+    it_truncates 'opening bracket before valid HTML',
+                 with: { max_length: 15 },
+                 source: '<<p>hello there</p>',
+                 expected: '&lt;<p></p>'
+    it_truncates 'closing bracket only',
+                 with: { max_length: 10 },
+                 source: '>',
                  expected: '<p></p>'
   end
 
