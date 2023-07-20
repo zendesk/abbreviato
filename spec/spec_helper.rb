@@ -5,7 +5,7 @@ require 'rspec-benchmark'
 require 'benchmark/memory'
 require 'abbreviato'
 
-require_relative "support/spec_helpers/abbreviato_macros"
+require_relative 'support/spec_helpers/abbreviato_macros'
 
 RSpec.configure do |config|
   config.extend AbbreviatoMacros
