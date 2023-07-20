@@ -1,20 +1,11 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-
-require 'rubygems'
-require 'bundler'
 require 'nokogiri'
 require 'rspec-benchmark'
 require 'benchmark/memory'
+require 'abbreviato'
 
-Bundler.setup
-Bundler.require
-
-# Requires supporting files with custom matchers and macros, etc,
-# in ./support/ and its subdirectories.
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each { |f| require f }
+require_relative "support/spec_helpers/abbreviato_macros"
 
 RSpec.configure do |config|
   config.extend AbbreviatoMacros
