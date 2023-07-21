@@ -14,7 +14,7 @@ Pull requests are welcome on GitHub at https://github.com/zendesk/abbreviato
 
 After merging your changes into master, cut a tag and push it immediately:
 
-1. Update the version by `bundle exec rake bump:patch` or `bundle exec rake bump:minor`.
+1. Update the version in `lib/abbreviato/version.rb`.
 2. Update the repository `git push --tags`
 3. Run `gem build abbreviato.gemspec`
 4. Run `gem push abbreviato-x.y.z.gem`

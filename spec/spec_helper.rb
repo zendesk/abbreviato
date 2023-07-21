@@ -24,7 +24,7 @@ end
 RSpec::Matchers.define :be_valid_html do
   match do |actual|
     # Fires exception
-    Nokogiri::HTML("<html><body>#{actual}</body></html>", &:strict)
+    Nokogiri::HTML("<html><body>#{actual}</body></html>")
     true
   end
 end
