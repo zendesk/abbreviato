@@ -10,7 +10,7 @@ jobs:
     - uses: zendesk/checkout@v3
     - uses: zendesk/setup-ruby@v1
       with:
-        ruby-version: 2.7.8
+        ruby-version: 3.0.6
 
     - name: Gem install
       run: |
@@ -20,10 +20,11 @@ jobs:
     - run: |
         set -eu -o pipefail
 
-        IGNORED="CVE-2020-26247 GHSA-7rrm-v45f-jp64"
+        IGNORED=""
 
         if [ -n "$IGNORED" ]; then
           echo "::warning:: Ignored vulnerabilities: $IGNORED"
+          bundle-audit check --update --gemfile-lock Gemfile.lock --ignore $IGNORED
+        else
+          bundle-audit check --update --gemfile-lock Gemfile.lock
         fi
-
-        bundle-audit check --update --gemfile-lock Gemfile.lock --ignore $IGNORED
