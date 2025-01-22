@@ -22,11 +22,12 @@ module Abbreviato
   #     or an entire document (with `HTML`, `HEAD` & `BODY` tags). Setting to true prevents automatic addition of
   #     these tags if they are missing. Defaults to `true`.
   # @return [[String] the truncated string, [boolean] whether the string was truncated]
-  def self.truncate(source = '', user_options = {})
+  def self.truncate(source = '', user_options = {}, encoding = 'UTF-8')
     return [nil, false] if source.nil?
+    return ['', false] if source.blank?
 
     truncated_sax_document = TruncatedSaxDocument.new(DEFAULT_OPTIONS.merge(user_options))
-    parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document)
+    parser = Nokogiri::HTML::SAX::Parser.new(truncated_sax_document, encoding)
     parser.parse(source) { |context| context.replace_entities = false }
 
     if truncated_sax_document.truncated && user_options[:truncate_incomplete_row]
