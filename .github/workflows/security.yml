@@ -10,7 +10,7 @@ jobs:
     - uses: zendesk/checkout@v3
     - uses: zendesk/setup-ruby@v1
       with:
-        ruby-version: 3.0.6
+        ruby-version: 3.3.7
 
     - name: Gem install
       run: |

@@ -9,7 +9,7 @@ AllCops:
   ExtraDetails: true
   DisplayCopNames: true
   DisplayStyleGuide: true
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.3
   Include:
     - '*.gemspec'
     - 'Gemfile'
