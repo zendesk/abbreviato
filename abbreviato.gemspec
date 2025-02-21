@@ -26,5 +26,5 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.1'
 
   s.add_dependency 'htmlentities', '~> 4.3.4'
-  s.add_dependency 'nokogiri', '~> 1.17.2'
+  s.add_dependency 'nokogiri', '~> 1.18'
 end
