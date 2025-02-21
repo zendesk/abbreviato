@@ -160,7 +160,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   def append_to_truncated_string(string, overridden_length = nil)
     @truncated_string << string
-    @estimated_length += (overridden_length || string.bytesize)
+    @estimated_length += overridden_length || string.bytesize
   end
 
   def attributes_to_string(attributes)

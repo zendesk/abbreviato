@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/zendesk/abbreviato'
   s.licenses = ['MIT']
   s.require_paths = ['lib']
-  s.rubygems_version = '2.0.2'
   s.summary = 'A tool for efficiently truncating HTML strings to a specific bytesize'
 
   s.required_ruby_version = '>= 3.1'

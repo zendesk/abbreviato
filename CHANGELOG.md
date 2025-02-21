@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Drops support for Ruby 3.0
 * Bumps nokogiri to 1.18.3
+* Bumps rubocop to 1.73 to ensure we have support for ruby 3.3
+* Bumps ruby to 3.3.7
 
 ## [2.0.0] - 2023-06-14
 

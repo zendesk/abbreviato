@@ -66,3 +66,9 @@ RSpec/ExampleLength:
 # Empty example group detected. (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/EmptyExampleGroup)
 RSpec/EmptyExampleGroup:
     Enabled: false
+
+Gemspec/RequireMFA:
+    Enabled: false
+
+Gemspec/RequiredRubyVersion:
+    Enabled: false

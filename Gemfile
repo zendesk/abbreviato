@@ -12,7 +12,7 @@ gem 'nokogiri', '~> 1.18'
 gem 'rake'
 gem 'rspec'
 gem 'rspec-benchmark'
-gem 'rubocop'
+gem 'rubocop', '~> 1.72'
 gem 'rubocop-rake'
 gem 'rubocop-rspec'
 
