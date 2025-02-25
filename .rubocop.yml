@@ -9,7 +9,7 @@ AllCops:
   ExtraDetails: true
   DisplayCopNames: true
   DisplayStyleGuide: true
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.3
   Include:
     - '*.gemspec'
     - 'Gemfile'
@@ -65,4 +65,10 @@ RSpec/ExampleLength:
 
 # Empty example group detected. (https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/EmptyExampleGroup)
 RSpec/EmptyExampleGroup:
+    Enabled: false
+
+Gemspec/RequireMFA:
+    Enabled: false
+
+Gemspec/RequiredRubyVersion:
     Enabled: false
