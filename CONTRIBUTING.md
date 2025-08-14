@@ -10,17 +10,20 @@ Pull requests are welcome on GitHub at https://github.com/zendesk/abbreviato
 - Assign yourself in the PRs.
 - Keep your branch up-to-date with the default branch.
 
-## Gem release
+### Releasing a new version
+A new version is published to RubyGems.org every time a change to `version.rb` is pushed to the `main` branch.
+In short, follow these steps:
+1. Update `version.rb`,
+2. run `bundle lock` to update `Gemfile.lock`,
+3. merge this change into `main`, and
+4. look at [the action](https://github.com/zendesk/abbreviato/actions/workflows/publish.yml) for output.
 
-After merging your changes into master, cut a tag and push it immediately:
-
-1. Update the version in `lib/abbreviato/version.rb`.
-1. Run `git tag -a vX.X.X -m "Describe the changes"` (replace with your tag).
-1. Update the repository `git push --tags`
-1. Run `gem build abbreviato.gemspec`
-1. Run `gem push abbreviato-x.y.z.gem`
-
-Note: you need proper credientials from http://rubygems.org. You can follow the guide at [api-authorization](https://guides.rubygems.org/rubygems-org-api/#api-authorization).
+To create a pre-release from a non-main branch:
+1. change the version in `version.rb` to something like `1.2.0.pre.1` or `2.0.0.beta.2`,
+2. push this change to your branch,
+3. go to [Actions → “Publish to RubyGems.org” on GitHub](https://github.com/zendesk/abbreviato/actions/workflows/publish.yml),
+4. click the “Run workflow” button,
+5. pick your branch from a dropdown.
 
 ## Coding conventions
 
