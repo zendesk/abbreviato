@@ -15,5 +15,6 @@ gem 'rspec-benchmark'
 gem 'rubocop', '~> 1.72'
 gem 'rubocop-rake'
 gem 'rubocop-rspec'
+gem 'thor', '>= 1.4.0'
 
 gemspec
