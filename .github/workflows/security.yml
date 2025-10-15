@@ -1,5 +1,7 @@
 name: Security
 on: [push]
+permissions:
+  contents: read
 jobs:
   main:
     name: bundle-audit

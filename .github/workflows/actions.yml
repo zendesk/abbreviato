@@ -1,5 +1,7 @@
 name: Continuous Integration
 on: [push]
+permissions:
+  contents: read
 jobs:
   specs:
     name: specs
@@ -21,7 +23,6 @@ jobs:
         bundler-cache: true
     - name: Run specs on Ruby ${{ matrix.ruby }}
       run: bundle exec rake spec
-
   linter:
     name: linter
     runs-on: ubuntu-latest
@@ -31,7 +32,6 @@ jobs:
       with:
         bundler-cache: true
     - run: bundle exec rake lint
-
   specs_successful:
     name: Specs passing?
     needs: specs

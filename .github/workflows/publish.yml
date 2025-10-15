@@ -1,11 +1,11 @@
 name: Publish to RubyGems.org
-
 on:
   push:
     branches: main
     paths: lib/abbreviato/version.rb
   workflow_dispatch:
-
+permissions:
+  contents: read
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -20,7 +20,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: false
-          
       - name: Install dependencies
         run: bundle install
       - uses: rubygems/release-gem@v1
