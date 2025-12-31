@@ -14,9 +14,11 @@ jobs:
         ruby:
           - '3.2'
           - '3.3'
+          - '3.4'
+          - '4.0'
     steps:
-    - uses: zendesk/checkout@v3
-    - uses: zendesk/setup-ruby@v1
+    - uses: actions/checkout@v6
+    - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
@@ -26,8 +28,8 @@ jobs:
     name: linter
     runs-on: ubuntu-latest
     steps:
-    - uses: zendesk/checkout@v3
-    - uses: zendesk/setup-ruby@v1
+    - uses: actions/checkout@v6
+    - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
     - run: bundle exec rake lint
