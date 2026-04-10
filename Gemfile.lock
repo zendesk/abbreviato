@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     abbreviato (3.3.0)
-      htmlentities (~> 4.3.4)
+      htmlentities (~> 4.3)
       nokogiri (~> 1.18)
 
 GEM
@@ -28,7 +28,7 @@ GEM
       path_expander (~> 2.0)
       prism (~> 1.7)
       sexp_processor (~> 4.0)
-    htmlentities (4.3.4)
+    htmlentities (4.4.2)
     json (2.10.2)
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
