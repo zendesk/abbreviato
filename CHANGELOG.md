@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-* Drops support for Ruby 3.1
+## [3.4.0] - 2025-10-15
+
+* #94: Drops support for Ruby 3.1
+* #99: Allows any 4.x version of htmlentities instead of only 4.3.x
 
 ## [3.3.0] - 2025-10-15
 
