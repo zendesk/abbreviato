@@ -9,10 +9,8 @@ jobs:
     env:
       RAILS_ENV: test
     steps:
-    - uses: zendesk/checkout@v3
-    - uses: zendesk/setup-ruby@v1
-      with:
-        ruby-version: 3.3.7
+    - uses: actions/checkout@v7
+    - uses: ruby/setup-ruby@v1
 
     - name: Gem install
       run: |
