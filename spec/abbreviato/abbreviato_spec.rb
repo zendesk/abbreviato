@@ -347,6 +347,34 @@ describe 'Abbreviato' do
   end
 
   describe 'entity conversion' do
+    it_does_not_truncate 'escapes all five basic entities without double encoding',
+                         with: { max_length: 100 },
+                         source: '<p>&lt;&gt;&amp;"\'</p>',
+                         expected: '<p>&lt;&gt;&amp;&quot;&apos;</p>'
+    it_does_not_truncate 'encodes named entities and preserves unmapped Unicode and whitespace',
+                         with: { max_length: 200 },
+                         source: "<p>é Ω ∑ → € …\u00A0\u200D 中 😀\n\t</p>",
+                         expected: "<p>&eacute; &Omega; &sum; &rarr; &euro; &hellip;&nbsp;&zwj; 中 😀\n\t</p>"
+    it_does_not_truncate 'counts named entities by their encoded byte length',
+                         with: { max_length: 13 },
+                         source: '<p>©</p>',
+                         expected: '<p>&copy;</p>'
+    it_truncates 'uses basic encoding when named text exceeds the byte limit',
+                 with: { max_length: 12, tail: '' },
+                 source: '<p>©abcdef</p>',
+                 expected: '<p>©abc</p>'
+    it_truncates 'does not split an escaped apostrophe at the byte limit',
+                 with: { max_length: 12, tail: '' },
+                 source: "<p>'x</p>",
+                 expected: '<p></p>'
+    it_does_not_truncate 'uses only basic encoding for attributes',
+                         with: { max_length: 100 },
+                         source: '<p title="&lt;&gt;&amp;&quot;&apos;©">x</p>',
+                         expected: "<p title='&lt;&gt;&amp;&quot;&apos;©'>x</p>"
+    it_does_not_truncate 'handles attributes without values',
+                         with: { max_length: 100 },
+                         source: '<input disabled>',
+                         expected: "<input disabled=''/>"
     it_does_not_truncate 'converts © character into html entity',
                          with: { max_length: 100 },
                          source: '<p>© Copyright</p>',

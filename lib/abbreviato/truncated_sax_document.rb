@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 require 'nokogiri'
-require 'htmlentities'
+require_relative 'html_entities'
 
 class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   IGNORABLE_TAGS = %w[html head body].freeze
@@ -18,8 +18,6 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   # FIXME: Call super to initialize state of the parent class.
   def initialize(options) # rubocop:disable Lint/MissingSuper
-    @html_coder = HTMLEntities.new
-
     @max_length = options[:max_length]
     @tail = options[:tail] || ''
     @fragment_mode = options[:fragment]
@@ -68,7 +66,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     end
 
     # Use encoded length, so &gt; counts as 4 bytes, not 1 (which is what '>' would give)
-    encoded_string = @html_coder.encode(decoded_string, :named)
+    encoded_string = encode_named_entities(decoded_string)
     string_to_append = if encoded_string.bytesize > remaining_length
                          # This is the line which prevents HTML entities getting truncated - treat them as a single char
                          str = truncate_string(decoded_string)
@@ -133,6 +131,14 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
 
   private
 
+  def encode_named_entities(string)
+    string.gsub(/[<>'"&]|[^\x00-\x7F]/) { |char| Abbreviato::HTML_ENTITIES.fetch(char, char) }
+  end
+
+  def encode_basic_entities(string)
+    string.to_s.gsub(/[<>'"&]/, Abbreviato::HTML_ENTITIES)
+  end
+
   def opening_tag(name, attributes)
     attributes_string = attributes_to_string(attributes)
     if single_tag_element? name
@@ -166,7 +172,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
   def attributes_to_string(attributes)
     attributes.inject(' ') do |string, attribute|
       key, value = attribute
-      string << "#{key}='#{@html_coder.encode value}' "
+      string << "#{key}='#{encode_basic_entities(value)}' "
     end.rstrip
   end
 
@@ -179,7 +185,7 @@ class TruncatedSaxDocument < Nokogiri::XML::SAX::Document
     truncate_length = remaining_length - tail.bytesize
     truncated_string = ''
     decoded_string.chars.each do |char|
-      encoded_char = @html_coder.encode(char)
+      encoded_char = encode_basic_entities(char)
       break if encoded_char.bytesize > truncate_length
 
       truncated_string += encoded_char
